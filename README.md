@@ -8,3 +8,4 @@
  * helmet	 	- Adds extra security for the data that are passed in the request
  * morgan   - Request logging middleware used provies information about the request, result and time taken by the API to provide the response.
  * nodemon  - Automatically restart the server when there is an change in the application
+ * bcrypt   - Converts our sensitive strings into Random String
