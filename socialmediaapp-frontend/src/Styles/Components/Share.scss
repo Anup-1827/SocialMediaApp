@@ -1,0 +1,58 @@
+.share{
+    border: 1px solid black;
+    padding: 20px;
+    .shareThoughts{
+        display: flex;
+        align-items: center;
+        img{
+            width: 35px;
+            height: 35px;
+            object-fit: cover;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        input{
+            width: 100%;
+            border:  none;
+            padding: 5px 10px;
+            font-size: 16px;
+            &:focus{
+                outline: none;
+            }
+        }
+    }
+
+    hr{
+        margin: 20px 0;
+    }
+
+    .shareMedia{
+        display: flex;
+        justify-content: space-between;
+
+        .media{
+            width: 80%; 
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            div{
+                display: flex;
+                align-items: center;
+
+                // justify-content: space-between;  
+                cursor: pointer;
+            }
+        }
+
+        .shareBtn{
+            .btn{
+                background-color: green;
+                color: white;
+                border: 1px solid green;
+                padding: 3px 10px;
+                border-radius: 5px;
+            }
+        }
+        
+    }
+}

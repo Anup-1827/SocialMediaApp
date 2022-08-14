@@ -1,13 +1,14 @@
 import React from 'react'
 import {Chat, Notifications, Person, Search} from '@mui/icons-material'
-
+import Man1 from "../assets/Man1.jpg"
 import '../Styles/Components/TopBar.scss'
 
 function Topbar() {
   return (
     <div className="topBar">
       <div className="topLeft">
-        <span>SocioWeb</span>
+        <span className='socioWeb'>SocioWeb</span>
+        <span className='sw'>SW</span>
       </div>
       <div className="topMiddle">
         <Search className="searchIcon"/>
@@ -18,7 +19,7 @@ function Topbar() {
           <div className="homePageLink">Homepage</div>
           <div className="timelineLink">Timeline</div>
         </div>
-        <div className="notify">
+        <div className="notify icons">
           <div className="friendReqNotify notify">
             <Person/>
             <span>1</span>
@@ -33,7 +34,7 @@ function Topbar() {
           </div>
         </div>
         <div className="profile">
-          <img alt="img"/>
+          <img src={Man1} alt="" />
         </div>
       </div>
     </div>

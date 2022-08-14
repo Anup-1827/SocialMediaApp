@@ -7,22 +7,28 @@
     align-items: center;
 
     .topLeft{
-        flex: 3;
+        flex: 2;
         color: white;
         font-weight: bold;
         font-size: 22px;
         letter-spacing: 2px;
         cursor: pointer;
         margin-left: 10px;
+
+        .sw{
+            display: none;
+        }
     }
 
     .topMiddle{
-        flex: 5;
+        flex: 6;
         background-color: white;
         border-radius: 15px;
         display: flex;
         align-items: center;
         padding: 4px;
+        margin-right: 10px;
+        min-width: 304px;
 
         .searchIcon{
             cursor: pointer;
@@ -54,8 +60,9 @@
         .notify{
             display: flex;
             position: relative;
+            cursor: pointer;
             div{
-                margin-left: 10px;
+                margin-right: 10px;
             }
             span{
                 position: absolute;
@@ -73,11 +80,80 @@
             }
         }
 
-        .profile{
-            width: 20px;
-            height: 20px;
+        .profile img{
+            width: 35px;
+            height: 35px;
             object-fit: cover;
             border-radius: 50%;
+            cursor: pointer;
         }
+    }
+}
+
+
+
+@media screen and (max-width: 800px) {
+    .topLeft{
+        flex:1 !important;
+        .socioWeb{
+            display: none;
+        }
+        .sw{
+            background-color: white;
+            color: #1877f2;
+            width: 40px;
+            height: 40px;
+            display: flex !important;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            letter-spacing: 0px !important;
+            // display: block !important;
+        }
+    }
+    
+    .timelineLink{
+        margin-right:  0 !important;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .topBar{
+        flex-wrap: wrap;
+        height: 100px;
+    }
+    .topLeft{
+        flex: 1 !important;
+        .sw{
+            margin-right: 20px;
+        }
+    }
+    .topMiddle{
+        flex: 10 !important;
+        width: 100% !important;
+    }
+    .topRight{
+        flex: 12 !important;
+        // justify-content: space-between !important;
+        text-align: center;
+        .pageLinks{
+            width: 40%;
+            display: flex;
+            justify-content: space-around;
+        }
+        .icons{
+            width: 30%;
+            display: flex;
+            justify-content: space-around;  
+        }
+        .profile{
+            width: 20%;
+        }
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .topMiddle{
+        min-width: 200px !important;
     }
 }
