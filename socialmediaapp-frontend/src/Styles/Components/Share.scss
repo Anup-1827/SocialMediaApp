@@ -1,5 +1,4 @@
 .share{
-    border: 1px solid black;
     padding: 20px;
     .shareThoughts{
         display: flex;
@@ -42,6 +41,9 @@
                 // justify-content: space-between;  
                 cursor: pointer;
             }
+            span{
+                margin-left: 5px;
+            }
         }
 
         .shareBtn{
@@ -51,6 +53,7 @@
                 border: 1px solid green;
                 padding: 3px 10px;
                 border-radius: 5px;
+                cursor: pointer;
             }
         }
         

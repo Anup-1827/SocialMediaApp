@@ -6,7 +6,7 @@ import '../Styles/Components/Share.scss'
 
 export default function Share() {
   return (
-    <section className='share'>
+    <section className='share boxShadow'>
       <article className="shareThoughts">
            <img src={Man1} alt="name"/>
            <input type="text" name="thoughts" id="thoughts" placeholder="What's in your mind Anup?"/>

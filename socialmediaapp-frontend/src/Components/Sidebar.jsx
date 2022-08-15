@@ -11,39 +11,57 @@ export default function Sidebar() {
          <ul>
             <li>
                 <RssFeed/>
+                <span>
                 Feed
+                </span>
             </li>
             <li>
                 <Chat/>
+                <span>
                 Chats
+                </span>
             </li>
             <li>
                 <PlayCircleOutlineIcon/>
+                <span>
                 Videos
+                </span>
             </li>
             <li>
                 <Groups/>
+                <span>
                 Groups
+                </span>
             </li>
             <li>
                 <Bookmark/>
-                Bookkmarks
+                <span>
+                Bookmarks
+                </span>
             </li>
             <li>
                 <HelpOutline/>
+                <span>
                 Questions
+                </span>
             </li>
             <li>
                 <WorkOutline/>
+                <span>
                 Jobs
+                </span>
             </li>
             <li>
                 <Event/>
+                <span>
                 Events
+                </span>
             </li>
             <li>
                 <School/>
+                <span>
                 Courses
+                </span>
             </li>
          </ul>
        </article>
@@ -54,42 +72,36 @@ export default function Sidebar() {
                     <span>John Doe</span>
                     <div className='image'>
                         <img className='imageStyle' src={Man2}/>
-                        <span className='online'></span>
                     </div>
                 </article>
                 <article className='person'>
                     <span>John Doe</span>
                     <div className='image'>
                         <img className='imageStyle' src={Man2}/>
-                        <span className='online'></span>
                     </div>
                 </article>
                 <article className='person'>
                     <span>John Doe</span>
                     <div className='image'>
                         <img className='imageStyle' src={Man2}/>
-                        <span className='online'></span>
                     </div>
                 </article>
                 <article className='person'>
                     <span>John Doe</span>
                     <div className='image'>
                         <img className='imageStyle' src={Man2}/>
-                        <span className='online'></span>
                     </div>
                 </article>
                 <article className='person'>
                     <span>John Doe</span>
                     <div className='image'>
                         <img className='imageStyle' src={Man2}/>
-                        <span className='online'></span>
                     </div>
                 </article>
                 <article className='person'>
                     <span>John Doe</span>
                     <div className='image'>
                         <img className='imageStyle' src={Man2}/>
-                        <span className='online'></span>
                     </div>
                 </article>
             </section>

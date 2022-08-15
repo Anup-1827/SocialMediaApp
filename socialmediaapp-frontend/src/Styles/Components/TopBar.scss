@@ -5,16 +5,18 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position:fixed;  
 
     .topLeft{
         flex: 2;
-        color: white;
         font-weight: bold;
         font-size: 22px;
         letter-spacing: 2px;
         cursor: pointer;
         margin-left: 10px;
-
+        a{
+            color: white;
+        }
         .sw{
             display: none;
         }

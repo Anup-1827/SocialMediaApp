@@ -1,0 +1,88 @@
+.Post{
+    margin: 20px 0; 
+    .postCard{
+        padding: 20px;
+        margin: 20px 0; 
+
+        .topContent{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .postUserDetails{
+                display: flex;
+            align-items: center;
+                .postUserImage{
+                    width: 35px;
+                    height: 35px;
+                    border-radius: 50%;
+                }
+                .postUserName{
+                    font-weight: bold;
+                    margin-left: 20px
+                }
+                .postDateTime{
+                    margin-left: 20px;
+                    font-size: 10px;
+                }
+            }
+
+            .moreVert{
+                cursor: pointer;
+            }
+        }
+
+        .topMiddle{
+            margin-top: 15px;
+            .aboutPost{
+                margin-bottom: 10px
+            }
+            .userPost{
+                width: 100%;
+                max-height: 450px;
+                // max-height: 490px;
+                object-fit: cover;
+
+            }
+        }
+
+        .topBottom{
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .react{
+                display: flex;
+                align-items: center;
+                .love{
+                    cursor: pointer;
+                    margin-right: 5px;
+                    svg{
+                        background-color: #f7355a;
+                        border: 1px solid #f7355a;
+                        padding: 2px;
+                        color: white;
+                        border-radius: 50%;
+                    }
+                }
+                .like{
+                    cursor: pointer;
+                    margin-right: 5px;
+                    svg{
+                        background-color: #4080fe;
+                        border: 1px solid #4080fe;
+                        padding: 2px;
+                        color: white;
+                        border-radius: 50%; 
+                    }
+                }
+            }
+            .comments{
+                cursor: pointer;
+                p{
+                    width: fit-content;
+                    border-bottom: 1px dotted grey;
+                }
+            }
+        }
+    }
+}

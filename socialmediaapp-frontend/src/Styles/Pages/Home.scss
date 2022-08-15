@@ -1,0 +1,12 @@
+.homeContainer{
+    max-width: 100vw;
+    display: flex;
+    height: calc(100vh - 50px);
+    padding-top: 50px;
+}
+
+@media screen and (max-width: 650px) {
+    .homeContainer{
+        padding-top: 100px;
+    }
+}

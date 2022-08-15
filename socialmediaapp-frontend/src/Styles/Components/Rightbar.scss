@@ -1,3 +1,68 @@
+// import Gift from "";
 .rightBar{
     flex: 3;
+    padding: 10px;
+    overflow-y: scroll;
+    &::-webkit-scrollbar{
+        width: 10px;
+    }
+    .birthDayRemainder{
+        margin-top: 10px;
+        display: flex;
+        .giftWrapper{
+            width: 100px;
+            margin-right: 10px;
+
+            img{
+                border-radius: 10px;
+                width: 100%;
+                object-fit: cover;
+            }
+        }
+    }
+
+    .party{
+        margin-top: 20px;
+        width: 100%;
+        height: 300px;
+        background-image: url('../../assets/Party.jpg');
+        background-position: center center;
+        background-size: cover;
+        // object-fit: cover;
+        border-radius: 20px;
+        color: white;
+        font-size: 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 20px;
+
+    }
+
+     .onileFriends{
+        margin-top: 20px;
+        .person{
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            .image{
+                position: relative;
+                .online{
+                    background-color: green;
+                    position: absolute;
+                    width: 8px;
+                    height: 8px;
+                    border-radius: 50%;
+                    left: 25px;
+                }
+                .imageStyle{
+                    width: 35px;
+                    height: 35px;
+                    border-radius: 50%;
+                    margin-right: 20px;
+                }
+            }
+        }
+     }
+    
 }

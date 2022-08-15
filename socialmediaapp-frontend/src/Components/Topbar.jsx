@@ -1,5 +1,7 @@
 import React from 'react'
 import {Chat, Notifications, Person, Search} from '@mui/icons-material'
+import { Link } from 'react-router-dom'
+
 import Man1 from "../assets/Man1.jpg"
 import '../Styles/Components/TopBar.scss'
 
@@ -7,8 +9,10 @@ function Topbar() {
   return (
     <div className="topBar">
       <div className="topLeft">
+        <Link to="/home">
         <span className='socioWeb'>SocioWeb</span>
         <span className='sw'>SW</span>
+        </Link>
       </div>
       <div className="topMiddle">
         <Search className="searchIcon"/>
@@ -34,7 +38,9 @@ function Topbar() {
           </div>
         </div>
         <div className="profile">
-          <img src={Man1} alt="" />
+          <Link to="/profile">
+          <img src={Man1} alt="myPhoto" />
+          </Link>
         </div>
       </div>
     </div>

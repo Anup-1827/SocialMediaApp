@@ -1,20 +1,47 @@
-import Feed from "./Components/Feed";
-import Rightbar from "./Components/Rightbar";
-import Sidebar from "./Components/Sidebar";
+import {BrowserRouter as Router, Routes, Route} from "react-router-dom"
+import React
+ from "react";
 import Home from "./Pages/Home";
 import "./Styles/Common.scss"
+import Profile from "./Pages/Profile";
+import Topbar from "./Components/Topbar";
+import Login from "./Pages/Login";
+import Register from "./Pages/Register";
 
 function App() {
   return (
-    <div className="App">
-      <Home/>
-      <div className="homeContainer">
-        <Sidebar/>
-        <Feed/>
-        <Rightbar/>
-      </div>
-    </div>
+    <React.Fragment>
+
+    <Router>
+       <Routes>
+          <Route path="/" element={<Login/>}/>
+          <Route path="/register" element={<Register/>}/>
+          <Route path="/home" element={<HomeComponent/>}/>
+          <Route path="/profile" element={<ProfileController/>}/>
+       </Routes>
+    </Router>
+
+    </React.Fragment>
   );
+}
+
+
+function HomeComponent(){
+  return(
+    <>
+      <Topbar/>
+      <Home/>
+    </>
+  )
+}
+
+function ProfileController(){
+  return(
+    <>
+      <Topbar/>
+      <Profile/>
+    </>
+  )
 }
 
 export default App;
