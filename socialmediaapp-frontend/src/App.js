@@ -1,4 +1,4 @@
-import {BrowserRouter as Router, Routes, Route} from "react-router-dom"
+import {BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"
 import React
  from "react";
 import Home from "./Pages/Home";
@@ -14,7 +14,8 @@ function App() {
 
     <Router>
        <Routes>
-          <Route path="/" element={<Login/>}/>
+          <Route path="/login" element={<Login/>}/>
+          <Route path="/" element={<Navigate replace to="/login"/>}/>
           <Route path="/register" element={<Register/>}/>
           <Route path="/home" element={<HomeComponent/>}/>
           <Route path="/profile" element={<ProfileController/>}/>
