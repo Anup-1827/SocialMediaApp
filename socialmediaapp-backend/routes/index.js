@@ -26,7 +26,7 @@ const PostController = require('../controller/PostController')
     router.put('/post/:id', PostController.UpdatePost);
     router.delete('/post/:id', PostController.DeletePost);
     router.put('/post/:id/likeDislike', PostController.LikeDisLikePost);
-    router.get('/post/timeline/all', PostController.TimeLinePost);
+    router.get('/post/timeline/:userId', PostController.TimeLinePost);
     // End:--Post
 
 // End: Creating Router

@@ -17,3 +17,11 @@ $blue: #1877f2;
 a{
     text-decoration: none;
 }
+
+.visible{
+    visibility: hidden;
+}
+
+input:focus{
+    outline: none;
+}

@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const cors = require('cors')
 // End: Packages
 
 // Start:--Import Files
@@ -20,6 +21,9 @@ dotenv.config();
 
 // Start:-- Middleware
 app.use(express.json());
+app.use(cors({
+    origin: "http://localhost:3000"
+}))
 app.use(helmet());
 app.use(morgan("common"));
 app.use('/v1/api', router)

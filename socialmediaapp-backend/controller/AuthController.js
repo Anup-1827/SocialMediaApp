@@ -37,14 +37,14 @@ exports.Login = async (req, res)=>{
     try{
         const user = await User.findOne({email: req.body.email});
         // Verfiying User
-        !user && res.status(404).json("User not Found");
+        if(!user) return res.status(400).json("User not Found");
 
         // Verifying Password
         const verifyPassword = await bcrypt.compare( req.body.password ,user.password);
-        !verifyPassword && res.status(200).json("Password is incorrect");
+        if(!verifyPassword) return res.status(400).json("Password is incorrect");
 
         // Success
-        res.status(200).json(user)
+       return res.status(200).json(user)
 
     }
     catch(err){

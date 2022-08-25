@@ -75,15 +75,16 @@ exports.LikeDisLikePost = async(req, res)=>{
 
 exports.TimeLinePost = async(req, res)=>{
     try{
-        const currentUser = await Users.findById(req.body.userId);
+        const currentUser = await Users.findById(req.params.userId);
         const userPosts = await Post.find({userId: currentUser._id});
         const friendsPost = await Promise.all(
             currentUser.following.map(friendId=>{
                 return Post.find({userId: friendId})
             })
         )
-
-        res.status(200).json([...userPosts, ...friendsPost])
+        // const friendsPostArr = ...friendsPost;
+        // res.status(200).json([...userPosts, ...(...friendsPost)])
+        res.status(200).json(userPosts.concat(...friendsPost))
         
     }
     catch(err){

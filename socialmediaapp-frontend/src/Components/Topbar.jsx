@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import {Chat, Notifications, Person, Search} from '@mui/icons-material'
 import { Link } from 'react-router-dom'
 
@@ -6,6 +7,10 @@ import Man1 from "../assets/Man1.jpg"
 import '../Styles/Components/TopBar.scss'
 
 function Topbar() {
+  let userId = useSelector(state=> state.auth.data?.data?._id);
+  if(!userId){
+    userId = sessionStorage.getItem('userId');
+  }
   return (
     <div className="topBar">
       <div className="topLeft">
@@ -38,7 +43,7 @@ function Topbar() {
           </div>
         </div>
         <div className="profile">
-          <Link to="/profile">
+          <Link to={`/profile/${userId}`}>
           <img src={Man1} alt="myPhoto" />
           </Link>
         </div>

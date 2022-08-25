@@ -1,8 +1,41 @@
-import React from 'react'
-import {Link} from "react-router-dom";
-import "../Styles/Pages/Login.scss"
+import React,{ useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import {Link, useNavigate } from "react-router-dom";
+
+import { CircularProgress } from '@mui/material';
+import "../Styles/Pages/Login.scss";
+import { loginThunk } from '../redux/Auth/AuthSlice'
+import { STATUS } from '../config';
+import { useEffect } from 'react';
+
 
 function Login() {
+
+  const loginDetails = useSelector(state=> state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const email = useRef();
+  const password = useRef();
+
+
+  const handleLogin = async (e)=>{
+    e.preventDefault();
+    const UserDetails = {
+      "email": email.current.value,
+      "password": password.current.value
+    }
+
+ dispatch(loginThunk(UserDetails));
+  }
+
+  useEffect(()=>{
+    if(loginDetails.status === STATUS.SUCCESS){
+      const userId = loginDetails.data?.data?._id;
+      sessionStorage.setItem("userId", userId);
+      navigate('/home')
+    }
+  },[loginDetails])
 
   return (
     <section className='login'>
@@ -13,19 +46,19 @@ function Login() {
           </p>
       </article>
 
-      <articel className="rightSection">
-        <form action="" className='formFields'>
-        <input type="text" name="email" id="email" className='inputText' placeholder='Email'/>
-        <input type="password" name="password" id="password" className='inputText' placeholder='Password'/>
-
-        <button className='loginBtn'>Login</button>
+      <article className="rightSection">
+        <form className='formFields' onSubmit={handleLogin}>
+        <input type="text" name="email" id="email" className='inputText' placeholder='Email' ref={email} required/>
+        <input type="password" name="password" id="password" className='inputText' placeholder='Password' ref={password} required/>
+        <button className='loginBtn'>Login{(loginDetails.status.toString().toUpperCase() === "LOADING")?<CircularProgress style={{color:'white', width:"25px", height:"25px", marginLeft:"20px"}}/>:""}  </button>
+        {/* <button className='loginBtn'>Login  <CircularProgress className={(loginDetails.status.toString().toUpperCase() !== "SUCCESS" && loginDetails.status.toString().toUpperCase() !== "IDLE")?"":"visible"} style={{color:'white', width:"25px", height:"25px", marginLeft:"20px"}}/> </button> */}
         <button className='forgotPsdBtn'>ForgotPassword?</button>
         <Link to="/register">
         <button className='CreateAccount'>Create New Account</button>
         </Link>
         </form>
 
-      </articel>
+      </article>
 
     </section>
   )
