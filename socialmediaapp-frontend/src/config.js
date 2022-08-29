@@ -4,3 +4,5 @@ export const STATUS = Object.freeze({
     LOADING: "loading",
     SUCCESS:"success"
 })
+
+export const BACKEND_URL = "http://localhost:1888/v1/api/";

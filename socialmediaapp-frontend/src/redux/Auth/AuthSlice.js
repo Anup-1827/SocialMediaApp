@@ -2,7 +2,8 @@ import { SettingsApplicationsOutlined } from "@mui/icons-material";
 import  {createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import axios from "axios";
 
-import { STATUS } from "../../config";
+
+import { STATUS, BACKEND_URL } from "../../config";
 
 const initialState = {
     data: {},
@@ -44,7 +45,7 @@ const AuthSlice = createSlice({
 
 
 export const loginThunk = createAsyncThunk("auth/fetchLoginDetails", async (userDetails)=>{
-    const loginDetails = await axios.post("auth/login", userDetails);
+    const loginDetails = await axios.post(BACKEND_URL+"auth/login", userDetails);
     // console.log(loginDetails.json());
     // const jsonRespone =  loginDetails.json();
 
@@ -55,7 +56,8 @@ export const loginThunk = createAsyncThunk("auth/fetchLoginDetails", async (user
 
 export const RegisterThunk = createAsyncThunk("auth/fetchRegisterDetails", async(userDetails)=>{
     const user = {}
-    const registerDetails = await axios.post("auth/register", user)
+    const registerDetails = await axios.post(BACKEND_URL+"auth/register", user);
+    return registerDetails;
 })
 
 export const {emptyObj} = AuthSlice.actions

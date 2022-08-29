@@ -15,7 +15,7 @@ const PostController = require('../controller/PostController')
     //Start:--User
     router.put('/users/:id', UsersController.UpdateUser);
     router.delete('/users/:id', UsersController.DeleteUser);
-    router.get('/users/:id', UsersController.GetUser);
+    router.get('/users/', UsersController.GetUser);
     router.put('/users/:id/follow', UsersController.FollowUser);
     router.put('/users/:id/unfollow', UsersController.UnFollowUser);
     //End:--User
@@ -27,6 +27,7 @@ const PostController = require('../controller/PostController')
     router.delete('/post/:id', PostController.DeletePost);
     router.put('/post/:id/likeDislike', PostController.LikeDisLikePost);
     router.get('/post/timeline/:userId', PostController.TimeLinePost);
+    router.get('/post/getUserPosts/:userName', PostController.GetUserPosts)
     // End:--Post
 
 // End: Creating Router

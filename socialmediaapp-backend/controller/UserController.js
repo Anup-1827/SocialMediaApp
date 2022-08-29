@@ -56,7 +56,9 @@ exports.DeleteUser = async(req, res)=>{
 
 exports.GetUser = async(req,res)=>{
     try{
-        const user = await User.findById(req.params.id);
+        const userName = req.query.userName;
+        const userId = req.query.userId;
+        const user = userId? await User.findById(userId): await User.findOne({userName});
         const {password, email, ...other} = user._doc;
         res.status(200).json(other) 
     }

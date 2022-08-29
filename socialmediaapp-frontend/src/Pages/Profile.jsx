@@ -11,11 +11,12 @@ export default function Profile() {
     const  PF = process.env.REACT_APP_PUBLIC_URL;
     const [userDetailedInfo, setUserDetailedInfo] = useState({});
 
+    console.log(user)
 
 
     useEffect(()=>{
         const fetchUserDetails = async ()=>{
-            if(Object.keys(user.data).length == 0){
+            if(Object.keys(user).length == 0){
                 const id = sessionStorage.getItem('userId');
 
                 const userInfo = await userDetails(id);
@@ -54,7 +55,7 @@ export default function Profile() {
                 </p>
             </section>
             <section className="details">
-                <Feed/>
+                <Feed profile={true}/>
                 <article className='userInfo'>
                     <div className="aboutUser">
                         <h1>User Information</h1>

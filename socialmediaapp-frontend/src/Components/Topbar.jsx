@@ -7,9 +7,9 @@ import Man1 from "../assets/Man1.jpg"
 import '../Styles/Components/TopBar.scss'
 
 function Topbar() {
-  let userId = useSelector(state=> state.auth.data?.data?._id);
-  if(!userId){
-    userId = sessionStorage.getItem('userId');
+  let userName = useSelector(state=> state.auth.data?.data?.userName);
+  if(!userName){
+    userName = sessionStorage.getItem('userName');
   }
   return (
     <div className="topBar">
@@ -43,7 +43,7 @@ function Topbar() {
           </div>
         </div>
         <div className="profile">
-          <Link to={`/profile/${userId}`}>
+          <Link to={`/profile/${userName}`}>
           <img src={Man1} alt="myPhoto" />
           </Link>
         </div>

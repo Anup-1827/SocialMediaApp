@@ -31,8 +31,11 @@ function Login() {
 
   useEffect(()=>{
     if(loginDetails.status === STATUS.SUCCESS){
-      const userId = loginDetails.data?.data?._id;
+      const user = loginDetails.data?.data;
+      const userId = user?._id;
+      const userName = user?.userName;
       sessionStorage.setItem("userId", userId);
+      sessionStorage.setItem("userName",userName);
       navigate('/home')
     }
   },[loginDetails])
