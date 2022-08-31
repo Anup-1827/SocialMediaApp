@@ -51,7 +51,7 @@ function Login() {
 
       <article className="rightSection">
         <form className='formFields' onSubmit={handleLogin}>
-        <input type="text" name="email" id="email" className='inputText' placeholder='Email' ref={email} required/>
+        <input type="email" name="email" id="email" className='inputText' placeholder='Email' ref={email} required/>
         <input type="password" name="password" id="password" className='inputText' placeholder='Password' ref={password} required/>
         <button className='loginBtn'>Login{(loginDetails.status.toString().toUpperCase() === "LOADING")?<CircularProgress style={{color:'white', width:"25px", height:"25px", marginLeft:"20px"}}/>:""}  </button>
         {/* <button className='loginBtn'>Login  <CircularProgress className={(loginDetails.status.toString().toUpperCase() !== "SUCCESS" && loginDetails.status.toString().toUpperCase() !== "IDLE")?"":"visible"} style={{color:'white', width:"25px", height:"25px", marginLeft:"20px"}}/> </button> */}

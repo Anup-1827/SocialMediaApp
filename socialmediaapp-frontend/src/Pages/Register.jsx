@@ -13,12 +13,25 @@ function Register() {
   const previous = useRef()
 
   const handleNextBtn = (e) => {
+    let valid = true;
     e.preventDefault();
-    firstPage.current.classList.add('hide');
-    next.current.classList.add('hide');
-    secondPage.current.classList.remove('hide');
-    register.current.classList.remove('hide');
-    previous.current.classList.remove('hide');
+    
+
+    firstPage.current.childNodes.forEach(child=>{
+      if(child.attributes.required && child.value == ""){
+            child.style.border= "1px solid red";
+            valid = false;
+      }
+
+    })
+
+    if(valid){
+      firstPage.current.classList.add('hide');
+  next.current.classList.add('hide');
+  secondPage.current.classList.remove('hide');
+  register.current.classList.remove('hide');
+  previous.current.classList.remove('hide');
+    }
   }
 
   const handlePreviousBtn = (e) => {
@@ -28,6 +41,10 @@ function Register() {
     secondPage.current.classList.add('hide');
     register.current.classList.add('hide');
     previous.current.classList.add('hide');
+  }
+
+  const handleErrorMsg = (e)=>{
+    e.target.style.border= "1px solid black";
   }
 
   const RegisterUser = ()=>{
@@ -45,14 +62,14 @@ function Register() {
       </article>
 
       <article className="rightSection">
-        <form action="" className='formFields'>
+        <form action="" className='formFields' >
       
-              <section className='fistPage' ref={firstPage} >
-                <input type="text" name="name" id="name" className='inputText' placeholder='Full Name' required />
-                <input type="text" name="email" id="email" className='inputText' placeholder='Email' required />
-                <input type="text" name="userName" id="userName" className='inputText' placeholder='UserName' required />
+              <section className='fistPage' ref={firstPage} onFocus={handleErrorMsg}>
+                <input type="email" name="email" id="email" className='inputText' placeholder='Email' required={true} />
+                <input type="text" name="userName" id="userName" className='inputText' placeholder='UserName' required={true} />
 
-                <input type="password" name="password" id="password" className='inputText' placeholder='Password' required />
+                <input type="password" name="password" id="password" className='inputText' placeholder='Password' required={true} />
+                <input type="password" name="confirmPassword" id="confirmPassword" className='inputText' placeholder='Confirm Password' required={true} />
 
                 <div className='fileUploadDiv'>
                   <div>
@@ -72,8 +89,8 @@ function Register() {
          
               <section className='secondPage hide' ref={secondPage}>
                 <button className='previousBtn hide' ref={previous} onClick={handlePreviousBtn}><ArrowBackIcon /></button>
-                <input type="text" name="city" id="city" className="city inputText" placeholder='City' required />
-                <input type="text" name="state" id="state" className="state inputText" placeholder='State' required />
+                <input type="text" name="city" id="city" className="city inputText" placeholder='City' required={true} />
+                <input type="text" name="state" id="state" className="state inputText" placeholder='State' required={true} />
                 <div className="DrdRelation">
                   <select type="text" name="relationShip" id="relationShip" className="relationShip inputText" placeholder='Relationship Status'>
                     <option value="">Select Relationship</option>
@@ -85,7 +102,7 @@ function Register() {
               </section>
 
    
-            <button type='Submit' className='register hide' ref={register} onClick={RegisterUser}>Register</button> :
+            <button type='Submit' className='register hide' ref={register} onClick={RegisterUser}>Register</button>
             <button className='nextBtn register' onClick={handleNextBtn} ref={next}>Next</button>
           
           <p>
