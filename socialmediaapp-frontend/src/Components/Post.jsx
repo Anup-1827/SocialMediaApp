@@ -5,17 +5,23 @@ import {Link} from 'react-router-dom';
 
 import '../Styles/Components/Post.scss';
 import {userDetails} from "../API Calls/UserAPI"
+import { LikeDislikePosts } from '../API Calls/PostAPI';
 
 
 export default function Post({key, post}) {
     const [likeUnlike, setLikeUnlike] = useState(post.likes.length);
-    const [like, setLike] = useState(true);
     const [user, setUser] = useState({})
     const PF = process.env.REACT_APP_PUBLIC_URL;
 
-    const handleLikes = ()=>{
-        like? setLikeUnlike(likeUnlike=> likeUnlike+1): setLikeUnlike(likeUnlike=> likeUnlike-1);
-        setLike(!like);
+    const handleLikes = async (postUserId)=>{
+        const userId = sessionStorage.getItem('userId');
+        const response = await LikeDislikePosts(postUserId,userId);
+        if(response.toLowerCase()== "you like the post"){
+            setLikeUnlike(likeUnlike=> likeUnlike+1); 
+        }
+        else if(response.toLowerCase()== "you dislike the post"){
+            setLikeUnlike(likeUnlike=> likeUnlike-1);
+        }
     }
 
     useEffect(()=>{
@@ -53,7 +59,7 @@ export default function Post({key, post}) {
                 :""}
             </div>
             <div className="topBottom">
-                <div className="react" onClick={handleLikes}>
+                <div className="react" onClick={()=>handleLikes(post._id)}>
                     <span className='love'><Favorite/> </span>
                     <span className='like'><ThumbUp/></span>
                     <span> {likeUnlike + ' like the post'}</span>

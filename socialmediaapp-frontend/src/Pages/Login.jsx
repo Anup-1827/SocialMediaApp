@@ -30,7 +30,7 @@ function Login() {
   }
 
   useEffect(()=>{
-    if(loginDetails.status === STATUS.SUCCESS){
+    if(loginDetails.status === STATUS.SUCCESS && loginDetails.isLoggedin){
       const user = loginDetails.data?.data;
       const userId = user?._id;
       const userName = user?.userName;

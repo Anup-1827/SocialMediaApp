@@ -7,7 +7,8 @@ import { STATUS, BACKEND_URL } from "../../config";
 
 const initialState = {
     data: {},
-    status: STATUS.IDLE
+    status: STATUS.IDLE, 
+    isLoggedin: false
 }
 
 const AuthSlice = createSlice({
@@ -25,10 +26,11 @@ const AuthSlice = createSlice({
         .addCase(loginThunk.fulfilled, (state, action)=>{
             state.status = STATUS.SUCCESS;
             state.data = action.payload;
+            state.isLoggedin = true;
         })
         .addCase(loginThunk.rejected, (state, action)=>{
             state.status = STATUS.ERROR;
-            state.data = {};
+            state.data = action.payload;
         })
         // Register
         .addCase(RegisterThunk.pending, (state, action)=>{
@@ -36,9 +38,11 @@ const AuthSlice = createSlice({
         })
         .addCase(RegisterThunk.fulfilled, (state, action)=>{
             state.status = STATUS.SUCCESS;
+            state.data = action.payload;
         })
         .addCase(RegisterThunk.rejected, (state, action)=>{
             state.status = STATUS.ERROR;
+            state.data = action.payload;
         })
     }
 })
@@ -55,8 +59,7 @@ export const loginThunk = createAsyncThunk("auth/fetchLoginDetails", async (user
 
 
 export const RegisterThunk = createAsyncThunk("auth/fetchRegisterDetails", async(userDetails)=>{
-    const user = {}
-    const registerDetails = await axios.post(BACKEND_URL+"auth/register", user);
+    const registerDetails = await axios.post(BACKEND_URL+"auth/register", userDetails);
     return registerDetails;
 })
 

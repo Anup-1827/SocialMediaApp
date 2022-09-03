@@ -6,6 +6,7 @@ exports.Register = async(req,res)=>{
 
     try{
         // Start:--Hasing Password
+        console.log(req.body)
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(req.body.password, salt);
         // End:--Hasing Password
@@ -28,8 +29,7 @@ exports.Register = async(req,res)=>{
     }
     catch(err){
         console.log(err)
-        res.status(404);
-        res.send(err);
+        res.status(404).json(err);
     }
 } 
 
