@@ -15,7 +15,9 @@ const AuthSlice = createSlice({
     name: "auth",
     initialState,
     reducers:{
-       
+        logout(state,action){
+            state.isLoggedin = false;
+        }
     },
     extraReducers: (builder)=>{
         builder
@@ -63,6 +65,6 @@ export const RegisterThunk = createAsyncThunk("auth/fetchRegisterDetails", async
     return registerDetails;
 })
 
-export const {emptyObj} = AuthSlice.actions
+export const {logout} = AuthSlice.actions
 
 export default AuthSlice.reducer;
