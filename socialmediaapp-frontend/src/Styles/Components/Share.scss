@@ -44,6 +44,11 @@
             span{
                 margin-left: 5px;
             }
+            .photoMedia{
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+            }
         }
 
         .shareBtn{

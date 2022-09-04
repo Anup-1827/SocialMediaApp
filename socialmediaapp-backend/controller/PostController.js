@@ -5,10 +5,10 @@ exports.CreatePost = async (req,res)=>{
     try{
         const newPost = new Post(req.body);
         const savePost = await newPost.save();
-        res.status(200).json(savePost);
+        res.status(200).json({"SUCCESS": true});
     }
     catch(err){
-        res.status(400).json(savePost);
+        res.status(400).json(err);
     }
 }
 

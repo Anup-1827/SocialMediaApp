@@ -32,3 +32,14 @@ export const LikeDislikePosts = async (postId,userId)=>{
         console.log("Error in Liking and Disliking the post ", err)
     }
 }
+
+export const CreatePost = async (postDetails)=>{
+    try{
+        const response = await axios.post(`${URL}post`, postDetails);
+        return response.data;
+    }
+    catch(err){
+        alert("Error in creating Post");
+        console.log("Error in creating Post ", err);
+    }
+}

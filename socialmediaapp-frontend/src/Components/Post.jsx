@@ -32,7 +32,6 @@ export default function Post({key, post}) {
             userInfo.createdAt = userResponse?.createdAt;
             userInfo.profilePicture = userResponse?.profilePicture;
             setUser(userInfo);
-            console.log(userInfo);
         }
         userFunc();
     },[post.userId])

@@ -11,9 +11,6 @@ export default function Profile() {
     const  PF = process.env.REACT_APP_PUBLIC_URL;
     const [userDetailedInfo, setUserDetailedInfo] = useState({});
 
-    console.log(user)
-
-
     useEffect(()=>{
         const fetchUserDetails = async ()=>{
             if(Object.keys(user).length == 0){
