@@ -21,9 +21,9 @@ export default function Share({updatePost, setUpdatePost}) {
   const handlePostUpload = (e)=>{
     const file = e.target.files[0];
     
-    if(file.name.includes("png"|| "jpeg"|| "jpg")){
-      const imageRef = ref(storage, `${userName}/${file.name}${v4()}`);
-      uploadBytes(imageRef, uploadedImageRef).then((img)=>{
+    if(file.name.includes("png") || file.name.includes("jpeg") || file.name.includes("jpg")){
+      const imageRef = ref(storage, `${userName}/${v4()}${file.name}}`);
+      uploadBytes(imageRef, file).then((img)=>{
         getDownloadURL(img.ref)
         .then(url=>{
           setImageURL(url.toString());
@@ -71,7 +71,7 @@ export default function Share({updatePost, setUpdatePost}) {
           <label htmlFor='postImage' className='photoMedia'>
             <PermMedia htmlColor='tomato'/>
             <span>Photo or Video</span>
-            <input  type="file" className='hide' accept='jpg,.jpeg,.png' name="postImage" id="postImage" onChange={handlePostUpload}/>
+            <input  type="file" className='hide' name="postImage" id="postImage" onChange={handlePostUpload}/>
           </label>
           <div className='tag'>
             <Label htmlColor='blue'/>
