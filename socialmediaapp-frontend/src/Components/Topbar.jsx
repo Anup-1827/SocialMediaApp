@@ -59,10 +59,10 @@ function Topbar() {
         <input type="text" placeholder='Search for friend, post or video' />
       </div>
       <div className="topRight">
-        <div className="pageLinks">
+        {/* <div className="pageLinks">
           <div className="homePageLink">Homepage</div>
           <div className="timelineLink">Timeline</div>
-        </div>
+        </div> */}
         <div className="notify icons">
           <div className="friendReqNotify notify">
             <Person />

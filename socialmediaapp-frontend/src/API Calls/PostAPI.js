@@ -13,9 +13,9 @@ export const TimeLine = async (userId)=>{
     }
 }
 
-export const GetUserPosts = async (userId)=>{
+export const GetUserPosts = async (userName)=>{
     try{
-        const posts = await axios.get(`${URL}post/getUserPosts/${userId}`);
+        const posts = await axios.get(`${URL}post/getUserPosts/${userName}`);
         return posts.data;
     }
     catch(err){

@@ -1,45 +1,26 @@
 import React, { useRef, useState } from 'react'
 import { PermMedia, Label, Room, EmojiEmotions } from '@mui/icons-material'
 import { storage } from '../FireBase/FileUpload'
-import {getDownloadURL, ref, uploadBytes} from "firebase/storage"
-import {v4} from "uuid";
 
 import Man1 from '../assets/Man1.jpg'
 import '../Styles/Components/Share.scss'
 import { CreatePost } from '../API Calls/PostAPI';
+import { STATUS } from '../config';
+import { handleUploadingFile } from '../FireBase/FileUpload'
+import { async } from '@firebase/util'
 
 export default function Share({updatePost, setUpdatePost}) {
 
   const shareThoughts = useRef();
-  const [imageURL, setImageURL] = useState(null);
+  const [imageURL, setImageURL] = useState("")
 
   const userName = sessionStorage.getItem("userName");
   const loggedUserId = sessionStorage.getItem("userId");
-  const uploadedImageRef = ref(storage, `${userName}/`);
 
-
-  const handlePostUpload = (e)=>{
-    const file = e.target.files[0];
-    
-    if(file.name.includes("png") || file.name.includes("jpeg") || file.name.includes("jpg")){
-      const imageRef = ref(storage, `${userName}/${v4()}${file.name}}`);
-      uploadBytes(imageRef, file).then((img)=>{
-        getDownloadURL(img.ref)
-        .then(url=>{
-          setImageURL(url.toString());
-          alert("Image Uploaded Successfully");
-        })
-        .catch(err=>{
-          console.log("Error in creating URL.", err);
-          alert("Error in creating URL. CHECK CONSOLE")
-        })
-      })
-      .catch(err=>{
-        console.log("Error in uploading Image", err);
-        alert("Error in uploading Image. CHECK CONSOLE")
-      })
-    }else{
-      alert("Image Format should be jpeg, png, jpg");
+  const handlePostUpload = async(event)=>{
+    const uploadResponse = await handleUploadingFile(event);
+    if(uploadResponse.isSuccess === STATUS.SUCCESS){
+      setImageURL(uploadResponse.imageUrl)
     }
   }
 
@@ -48,7 +29,7 @@ export default function Share({updatePost, setUpdatePost}) {
     const  postDetails={};
     postDetails.userId = loggedUserId;
     postDetails.desc = shareThoughts.current.value;
-    postDetails.img = imageURL;
+    postDetails.img = imageURL?imageURL:"";
     const createPostRes = await CreatePost(postDetails);
     
     if(createPostRes.SUCCESS){

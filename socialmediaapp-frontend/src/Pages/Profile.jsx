@@ -1,29 +1,84 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import Sidebar from '../Components/Sidebar'
-import Feed  from '../Components/Feed'
+import EditIcon from '@mui/icons-material/Edit';
 
 import "../Styles/Pages/Profile.scss"
-import { useSelector } from 'react-redux'
-import { userDetails } from '../API Calls/UserAPI'
+import { useDispatch, useSelector } from 'react-redux'
+import { updateUser, userDetails } from '../API Calls/UserAPI'
+import Feed  from '../Components/Feed'
+import { useParams } from 'react-router-dom';
+import { handleUploadingFile } from '../FireBase/FileUpload';
+import { STATUS } from '../config';
+import { saveUser } from '../redux/Auth/AuthSlice';
+
 
 export default function Profile() {
     const user = useSelector(state=> state.auth.data);
+    const dispatch = useDispatch();
+    const {id} = useParams();
+    const editCoverPhotoRef = useRef();
+    const editProfilePhotoRef = useRef();
+    const followUnfollowBtnRef = useRef();
+    const userId = sessionStorage.getItem('userId'); 
+    const userName = sessionStorage.getItem('userName');
     const  PF = process.env.REACT_APP_PUBLIC_URL;
     const [userDetailedInfo, setUserDetailedInfo] = useState({});
 
     useEffect(()=>{
         const fetchUserDetails = async ()=>{
             if(Object.keys(user).length == 0){
-                const id = sessionStorage.getItem('userId');
 
-                const userInfo = await userDetails(id);
+                const userInfo = await userDetails('',id);
+                dispatch(saveUser(userInfo))
                 setUserDetailedInfo(userInfo);
             }
             
         }
+        if(id !== userName){   
+            editCoverPhotoRef.current.classList.add('hide');
+            editProfilePhotoRef.current.classList.add('hide'); 
+        }
+        else{
+            followUnfollowBtnRef.current.classList.add('hide'); 
+        }
 
         fetchUserDetails();
     },[])
+
+    const handleEditPhoto = async(event)=>{
+        if(event.target?.type === 'file' && event.target.value !== ""){
+            if(event.target.name === "editCoverPhoto"){
+            const uploadResponse = await handleUploadingFile(event, "CoverPhoto");   
+            const updateData = {coverPicture : uploadResponse.imageUrl.toString()}
+            const updateUserRes = await updateUser(userId, updateData);
+            if(updateUserRes.isSuccess){
+                alert("CoverPhtoto Uploaded Successfully");
+                const userInfo = await userDetails(userId);
+                dispatch(saveUser(userInfo))
+                setUserDetailedInfo(userInfo);
+            }
+            else{
+                alert("Unable to Upload CoverPhtoto");
+            }
+            }
+            else if(event.target.name === "editProfilePhoto"){
+            const uploadResponse = await handleUploadingFile(event, "ProfilePhoto");   
+            const updateData = {profilPicture : uploadResponse.imageUrl}
+            const updateUserRes = await updateUser(userId,updateData);
+            if(updateUserRes.isSuccess){
+                alert("ProfilePhoto Uploaded Successfully");
+                const userInfo = await userDetails(userId);
+                dispatch(saveUser(userInfo))
+                setUserDetailedInfo(userInfo);
+            }
+            else{
+                alert("ProfilePhoto to Upload CoverPhtoto");
+            }
+            }
+        };
+    }
+
+    
   return (
     <section className="profileInfo">
         <Sidebar/>
@@ -33,12 +88,23 @@ export default function Profile() {
                             :(userDetailedInfo && userDetailedInfo?.coverPicture && userDetailedInfo?.coverPicture !== "")?userDetailedInfo.coverPicture
                             :`${PF}/noAvatar.png`} 
                     alt="coverphoto" className="CoverPhoto" />
-                <img src={(user && user?.data?.profilePicture && user?.data?.profilePicture !== "")?user?.data?.profilePicture
-                            :(userDetailedInfo && userDetailedInfo?.profilePicture && userDetailedInfo?.profilePicture !== "")?userDetailedInfo.profilePicture
+                <img src={(user && user?.data?.profilPicture && user?.data?.profilPicture !== "")?user.data.profilPicture
+                            :(userDetailedInfo && userDetailedInfo?.profilPicture && userDetailedInfo?.profilPicture !== "")?userDetailedInfo.profilPicture
                             :`${PF}/noAvatar.png`} 
                     alt="profilePhoto" className='profilePhoto'/>
+                
+                <label  ref={editCoverPhotoRef} htmlFor='editCoverPhoto' title='Edit Cover Photo' className='editCoverPhoto'>
+                    <EditIcon/>
+                    <input onChange={handleEditPhoto} type="file" className='hide editBtn' name="editCoverPhoto" id="editCoverPhoto" />
+                </label>
+                <label  ref={editProfilePhotoRef} htmlFor='editProfilePhoto' title='Edit Profile Photo' className='editProfilePhoto'>
+                    <EditIcon/>
+                    <input onChange={handleEditPhoto} type="file" className='hide editBtn' name="editProfilePhoto" id="editProfilePhoto" />
+                </label>
+                
             </section>
             <section className="nameandDesc">
+            
                 <h1>
                 {(user && user?.data?.useName)?user.data.userName
                 :userDetailedInfo?.userName
@@ -54,6 +120,12 @@ export default function Profile() {
             <section className="details">
                 <Feed profile={true}/>
                 <article className='userInfo'>
+                    <div>
+
+                <button ref={followUnfollowBtnRef} className='followUnFollowBtn'>
+                    Follow 
+                </button>
+                    </div>
                     <div className="aboutUser">
                         <h1>User Information</h1>
                         <div className="city">

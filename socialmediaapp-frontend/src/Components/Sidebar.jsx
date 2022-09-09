@@ -5,6 +5,7 @@ import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import Man2 from "../assets/Man2.jpg"
     
 export default function Sidebar() {
+    
   return (
     <section className='sidebar'>
        <article>
@@ -67,7 +68,7 @@ export default function Sidebar() {
        </article>
         <hr/>
        <article>
-            <section className='onlinePeople'>
+            <section className='friendList'>
                 <article className='person'>
                     <span>John Doe</span>
                     <div className='image'>
