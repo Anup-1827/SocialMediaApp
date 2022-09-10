@@ -14,6 +14,7 @@ export default function Feed({profile}) {
   const [updatePost, setUpdatePost] = useState(false);
 
   const {id} = useParams();
+  const userName = sessionStorage.getItem("userName");
   
   const timeLinePost =  async ()=>{
          
@@ -41,7 +42,7 @@ export default function Feed({profile}) {
 
     <section className='feed'>
         <section>
-            <Share updatePost={updatePost} setUpdatePost={setUpdatePost}/>
+            {(id === userName) || (window.location.pathname === "/home")  ? <Share updatePost={updatePost} setUpdatePost={setUpdatePost}/>: ""}
             <section  className="Post">
             {
               postsList?.length ===0? <CircularProgress/>: postsList.sort((a, b)=> new Date(b.updatedAt)- new Date(a.updatedAt)).map(post=><Post key={post._id} post={post}/>)
