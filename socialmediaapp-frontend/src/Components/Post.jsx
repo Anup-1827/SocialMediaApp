@@ -6,6 +6,7 @@ import {Link} from 'react-router-dom';
 import '../Styles/Components/Post.scss';
 import {userDetails} from "../API Calls/UserAPI"
 import { LikeDislikePosts } from '../API Calls/PostAPI';
+import { useSelector } from 'react-redux';
 
 
 export default function Post({key, post}) {
@@ -30,7 +31,7 @@ export default function Post({key, post}) {
             const userInfo={};
             userInfo.userName = userResponse?.userName;
             userInfo.createdAt = userResponse?.createdAt;
-            userInfo.profilePicture = userResponse?.profilePicture;
+            userInfo.profilePicture = userResponse?.profilPicture;
             setUser(userInfo);
         }
         userFunc();
@@ -41,10 +42,10 @@ export default function Post({key, post}) {
              <article className="postCard boxShadow  " key={key}>
             <div className="topContent">    
                 <div className="postUserDetails">
-                    <Link to={`/profile/${user.userName}`}>
+                    <Link to={`/profile/${user.userName}`} class="profileLink">
                     <img src={user.profilePicture?user.profilePicture:`${PF}/noAvatar.png`} className='postUserImage' placeholder='post user name' alt="pos"/>
-                    </Link>
                     <span className="postUserName">{user.userName}</span>
+                    </Link>
                     <span className="postDateTime">{format(user.createdAt)}</span>
                 </div>
                 <div className="moreVert">

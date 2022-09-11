@@ -20,7 +20,10 @@ exports.Register = async(req,res)=>{
             coverPicture: req.body.coverPicture,
             followers: req.body.followers,
             following: req.body.following,
-            isAdmin: req.body.isAdmin
+            isAdmin: req.body.isAdmin,
+            city:req.body.city,
+            from:req.body.from,
+            relationship:req.body.relationship
         })
 
         const user = await newUser.save(); //Saving to DB

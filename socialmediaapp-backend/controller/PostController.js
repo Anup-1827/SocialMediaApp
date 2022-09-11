@@ -84,7 +84,7 @@ exports.TimeLinePost = async(req, res)=>{
         )
         // const friendsPostArr = ...friendsPost;
         // res.status(200).json([...userPosts, ...(...friendsPost)])
-        if(userPosts.length===0 && friendsPost.length === 0){
+        if(userPosts.length===0 || friendsPost.length === 0){
                 const AllPosts = await Post.find();
             res.status(200).json(AllPosts)
                 

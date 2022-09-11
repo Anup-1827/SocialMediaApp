@@ -25,14 +25,14 @@ export default function Profile() {
     const userName = sessionStorage.getItem('userName');
     const PF = process.env.REACT_APP_PUBLIC_URL;
     const [userDetailedInfo, setUserDetailedInfo] = useState({});
-    const [userfriendList, setUserfriendList] = useState([])
+    const [userfriendList, setUserfriendList] = useState([]);
 
     useEffect(() => {
         const fetchUserDetails = async () => {
             if (Object.keys(user).length == 0) {
 
                 const userInfo = await userDetails('', id);
-                dispatch(saveUser(userInfo))
+                // dispatch(saveUser(userInfo))
                 setUserDetailedInfo(userInfo);
             }
 
@@ -40,23 +40,42 @@ export default function Profile() {
         if (id !== userName) {
             editCoverPhotoRef.current.classList.add('hide');
             editProfilePhotoRef.current.classList.add('hide');
+            // window.location.reload();
         }
         else {
             followUnfollowBtnRef.current.classList.add('hide');
+        }
+        if(!window.location.hash) {
+            window.location = window.location + '#loaded';
+            window.location.reload();
         }
 
         fetchUserDetails();
     }, [])
 
+    // useEffect(()=>{
+    //     // window.location.reload();
+    // }, [id])
+
     useEffect(()=>{
         const fetchUserFriendsList = async()=>{
-            if(Object.keys(user).length !=0){
+            if(Object.keys(user).length !==0 && id === userName){
                 const friendsFollowers = user.followers;
             const userFollowersList = await Promise.all(friendsFollowers.map(async (userFriendId)=>{
                 const userFriendsDetails = await userDetails(userFriendId);
                 return userFriendsDetails;
             })) 
             setUserfriendList(userFollowersList);
+            }
+
+            if(id !== userName){
+                const userInfo = await userDetails("", id);
+                const followers = userInfo.followers;
+                const userFollowersList = await Promise.all(followers.map(async followerId=>{
+                    const friendDetails = await userDetails(followerId);
+                    return friendDetails;
+                }))
+                setUserfriendList(userFollowersList);
             }
             
         }

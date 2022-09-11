@@ -13,7 +13,10 @@ function Topbar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  let userName = useSelector(state => state.auth.data?.data?.userName);
+  const PF = process.env.REACT_APP_PUBLIC_URL;
+
+  let user = useSelector(state => state.auth.data);
+  let userName = user.userName;
   if (!userName) {
     userName = sessionStorage.getItem('userName');
   }
@@ -81,8 +84,10 @@ function Topbar() {
       </div>
       <div ref={profile} className="profile">
         <div className="positionDiv" onClick={handleProfileClick}>
+          
           <div className="imageDiv">
-            <img src={Man1} alt="myPhoto" className="profileImage" />
+            <b>{user.userName}</b>
+            <img src={user?.profilPicture?user.profilPicture:`${PF}/noAvatar.png`} alt="myPhoto" className="profileImage" />
           </div>
           <div ref={whiteCard} className="whiteCard hide">
             <p className="logout" >Logout</p>

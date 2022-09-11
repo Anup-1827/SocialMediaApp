@@ -21,6 +21,13 @@ export default function Sidebar() {
     const userId = sessionStorage.getItem('userId');
     const PF = process.env.REACT_APP_PUBLIC_URL;
 
+    useEffect(()=>{
+        if(!window.location.hash) {
+            window.location = window.location + '#loaded';
+            window.location.reload();
+        }
+    },[])
+
     useEffect(() => {
         const fetchFollowersList = async () => {
             if (followerList.length === 0 && Object.keys(user.data).length === 0) {
@@ -38,6 +45,7 @@ export default function Sidebar() {
 
     useEffect(() => {
         if (followerList && followerList.length !== 0) {
+            console.log(followerList);
             const fetchFriendList = async () => {
                 const friends = await Promise.all(followerList.map(async (friendId) => {
                     const friendDetails = await userDetails(friendId);

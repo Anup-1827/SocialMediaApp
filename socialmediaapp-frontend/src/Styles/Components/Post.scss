@@ -14,10 +14,15 @@
             .postUserDetails{
                 display: flex;
             align-items: center;
+            .profileLink{
+                display: flex;
+                align-items: center;
+            }
                 .postUserImage{
                     width: 35px;
                     height: 35px;
                     border-radius: 50%;
+                    object-fit: cover;
                     cursor: pointer;
                 }
                 .postUserName{

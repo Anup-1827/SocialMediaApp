@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react'
 import { PermMedia, Label, Room, EmojiEmotions } from '@mui/icons-material'
-import { storage } from '../FireBase/FileUpload'
+import { useSelector } from 'react-redux'
+
 
 import Man1 from '../assets/Man1.jpg'
 import '../Styles/Components/Share.scss'
@@ -12,8 +13,11 @@ import { async } from '@firebase/util'
 export default function Share({updatePost, setUpdatePost}) {
 
   const shareThoughts = useRef();
-  const [imageURL, setImageURL] = useState("")
+  const [imageURL, setImageURL] = useState("");
 
+  const user= useSelector(state=> state.auth.data)
+
+  const PF = process.env.REACT_APP_PUBLIC_URL;
   const userName = sessionStorage.getItem("userName");
   const loggedUserId = sessionStorage.getItem("userId");
 
@@ -41,7 +45,7 @@ export default function Share({updatePost, setUpdatePost}) {
   return (
     <section className='share boxShadow'>
       <article className="shareThoughts">
-           <img src={Man1} alt="name"/>
+           <img src={user?.profilPicture?user.profilPicture:`${PF}/noAvatar.png`} alt="name"/>
            <input ref={shareThoughts} type="text" name="thoughts" id="thoughts" placeholder="What's in your mind?"/>
       </article>
 

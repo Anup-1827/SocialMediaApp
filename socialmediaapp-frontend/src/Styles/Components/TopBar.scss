@@ -94,6 +94,13 @@
         left: -9px;
         .positionDiv{
             .imageDiv{
+                display: flex;
+                align-items: center;
+                b{
+                    color: white;
+                    letter-spacing: 1px;
+                    font-size: 20px;
+                }
                 img{
                     width: 35px;
                     height: 35px;
@@ -139,7 +146,7 @@
 
 .positionImage{
     top: 28px !important;
-    left: 43px !important;
+    // left: 43px !important;
 }
 
 @media screen and (max-width: 800px) {

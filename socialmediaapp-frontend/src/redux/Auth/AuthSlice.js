@@ -20,6 +20,7 @@ const AuthSlice = createSlice({
             state.data = action.payload;
         },
         logout(state,action){
+            state.status = STATUS.IDLE;
             state.isLoggedin = false;
         }
     },
