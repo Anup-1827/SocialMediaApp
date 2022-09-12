@@ -72,8 +72,10 @@ function Topbar() {
             <span>1</span>
           </div>
           <div className="chatNotify notify">
+            <Link to="/messanger" style={{color:"white"}}>
             <Chat />
             <span>1</span>
+            </Link>
           </div>
           <div className="friendReqNotify notify">
             <Notifications />

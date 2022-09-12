@@ -9,6 +9,7 @@ import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import {Provider} from "react-redux"
 import store from "./store";
+import Messanger from "./Pages/Messanger";
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
           <Route path="/register" element={<Register/>}/>
           <Route path="/home" element={<HomeComponent/>}/>
           <Route path="/profile/:id" element={<ProfileController/>}/>
+          <Route path="/messanger" element={<Messanger/>}/>
        </Routes>
     </Router>
     </Provider>

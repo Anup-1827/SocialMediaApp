@@ -1,0 +1,12 @@
+.chatApplication{
+    height: calc(100vh - 50px);
+    max-width: 100vw;
+    display: flex;
+    padding-top: 50px;
+}
+
+@media screen and (max-width: 650px) {
+    .chatApplication{
+        padding-top: 100px;
+    }
+}

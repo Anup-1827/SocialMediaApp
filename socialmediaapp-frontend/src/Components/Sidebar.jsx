@@ -10,10 +10,10 @@ import { Link } from "react-router-dom";
 
 import { saveFriendList } from '../redux/FriendsList/FriendsSlice';
 
-export default function Sidebar() {
+export default function Sidebar({ messanger }) {
 
     const user = useSelector(state => state.auth);
-    const friendList = useSelector(state=> state.friends)
+    const friendList = useSelector(state => state.friends)
     const dispatch = useDispatch();
     const [followerList, setfollowerList] = useState([]);
     // const [friendList, setFriendList] = useState([]);
@@ -21,12 +21,12 @@ export default function Sidebar() {
     const userId = sessionStorage.getItem('userId');
     const PF = process.env.REACT_APP_PUBLIC_URL;
 
-    useEffect(()=>{
-        if(!window.location.hash) {
+    useEffect(() => {
+        if (!window.location.hash) {
             window.location = window.location + '#loaded';
             window.location.reload();
         }
-    },[])
+    }, [])
 
     useEffect(() => {
         const fetchFollowersList = async () => {
@@ -60,7 +60,7 @@ export default function Sidebar() {
 
     return (
         <section className='sidebar'>
-            <article>
+            <article className={messanger ? "hide" : ""}>
                 <ul>
                     <li>
                         <RssFeed />
@@ -118,7 +118,7 @@ export default function Sidebar() {
                     </li>
                 </ul>
             </article>
-            <hr />
+            <hr className={messanger ? "hide" : ""} />
             <article>
                 <h1 className='friendListHeading'>Friends List</h1>
                 <section className='friendList'>
@@ -137,6 +137,98 @@ export default function Sidebar() {
                             )
                         })
                     }
+                    <article className='person'>
+                        <div className='image'>
+                            <img className='imageStyle' src={Man2} />
+                            <span className='online'></span>
+                        </div>
+                        <span>John Doe</span>
+                    </article><article className='person'>
+                        <div className='image'>
+                            <img className='imageStyle' src={Man2} />
+                            <span className='online'></span>
+                        </div>
+                        <span>John Doe</span>
+                    </article><article className='person'>
+                        <div className='image'>
+                            <img className='imageStyle' src={Man2} />
+                            <span className='online'></span>
+                        </div>
+                        <span>John Doe</span>
+                    </article><article className='person'>
+                        <div className='image'>
+                            <img className='imageStyle' src={Man2} />
+                            <span className='online'></span>
+                        </div>
+                        <span>John Doe</span>
+                    </article><article className='person'>
+                        <div className='image'>
+                            <img className='imageStyle' src={Man2} />
+                            <span className='online'></span>
+                        </div>
+                        <span>John Doe</span>
+                    </article><article className='person'>
+                        <div className='image'>
+                            <img className='imageStyle' src={Man2} />
+                            <span className='online'></span>
+                        </div>
+                        <span>John Doe</span>
+                    </article><article className='person'>
+                        <div className='image'>
+                            <img className='imageStyle' src={Man2} />
+                            <span className='online'></span>
+                        </div>
+                        <span>John Doe</span>
+                    </article>
+                    <article className='person'>
+                        <div className='image'>
+                            <img className='imageStyle' src={Man2} />
+                            <span className='online'></span>
+                        </div>
+                        <span>John Doe</span>
+                    </article><article className='person'>
+                        <div className='image'>
+                            <img className='imageStyle' src={Man2} />
+                            <span className='online'></span>
+                        </div>
+                        <span>John Doe</span>
+                    </article><article className='person'>
+                        <div className='image'>
+                            <img className='imageStyle' src={Man2} />
+                            <span className='online'></span>
+                        </div>
+                        <span>John Doe</span>
+                    </article><article className='person'>
+                        <div className='image'>
+                            <img className='imageStyle' src={Man2} />
+                            <span className='online'></span>
+                        </div>
+                        <span>John Doe</span>
+                    </article><article className='person'>
+                        <div className='image'>
+                            <img className='imageStyle' src={Man2} />
+                            <span className='online'></span>
+                        </div>
+                        <span>John Doe</span>
+                    </article><article className='person'>
+                        <div className='image'>
+                            <img className='imageStyle' src={Man2} />
+                            <span className='online'></span>
+                        </div>
+                        <span>John Doe</span>
+                    </article><article className='person'>
+                        <div className='image'>
+                            <img className='imageStyle' src={Man2} />
+                            <span className='online'></span>
+                        </div>
+                        <span>John Doe</span>
+                    </article><article className='person'>
+                        <div className='image'>
+                            <img className='imageStyle' src={Man2} />
+                            <span className='online'></span>
+                        </div>
+                        <span>John Doe</span>
+                    </article>
                 </section>
             </article>
         </section>
