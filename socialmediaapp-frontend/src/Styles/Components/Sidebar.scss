@@ -23,6 +23,7 @@
         width: 35px;
         height: 35px;
         border-radius: 50%;
+        object-fit: cover;
         // margin-left: 20px;
     }
     .person{
@@ -44,5 +45,10 @@
         margin-top: 10px;
         font-size: 20px;
     }
+}
+
+
+.active{
+    background-color: rgb(223, 223, 223);;
 }
 

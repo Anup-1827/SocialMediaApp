@@ -1,14 +1,20 @@
 .chatwindow{
     flex: 6;
-    overflow-y: scroll;
+    // overflow-y: scroll;
     max-width: calc(100vh - 50px);
-    
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    .chats{
+
+        overflow-y: scroll;
+    }
     // justify-content: flex-end;
     .chat{
         display: flex;
     flex-direction: column;
         margin: 10px 0;
-        
+    
    
     }
     .own{
@@ -43,10 +49,10 @@
         font-size: 14px;
     }
     .sendChat{
-        position: fixed;
-        top: calc(100vh - 110px);
+        // position: fixed;
+        // top: calc(100vh - 110px);
         display: flex;
-        width: 40%;
+        width: 100%;
         #writeChat{ 
             flex: 10;
             height: 100px;
@@ -59,4 +65,12 @@
 
         }
     }
+}
+
+.emptyWindow{
+    font-size: 70px;
+    flex: 6;
+    display: flex;
+    flex-direction: column;
+    color: grey;
 }

@@ -16,7 +16,7 @@ function Topbar() {
   const PF = process.env.REACT_APP_PUBLIC_URL;
 
   let user = useSelector(state => state.auth.data);
-  let userName = user.userName;
+  let userName = user?.userName;
   if (!userName) {
     userName = sessionStorage.getItem('userName');
   }
@@ -88,7 +88,7 @@ function Topbar() {
         <div className="positionDiv" onClick={handleProfileClick}>
           
           <div className="imageDiv">
-            <b>{user.userName}</b>
+            <b>{user?.userName}</b>
             <img src={user?.profilPicture?user.profilPicture:`${PF}/noAvatar.png`} alt="myPhoto" className="profileImage" />
           </div>
           <div ref={whiteCard} className="whiteCard hide">

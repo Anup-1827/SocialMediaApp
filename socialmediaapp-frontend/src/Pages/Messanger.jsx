@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Rightbar from '../Components/Rightbar'
 import Topbar from "../Components/Topbar"
 import Man2 from "../assets/Man2.jpg"
@@ -8,12 +8,13 @@ import Sidebar from '../Components/Sidebar'
 import ChatWindow from '../Components/ChatWindow'
 
 function Messanger() {
+    const [userChange, setUserChange ] = useState();
     return (
         <main>
             <Topbar />
             <section className='chatApplication'>
-                <Sidebar messanger={true}/>
-                <ChatWindow/>
+                <Sidebar userChange={userChange} setUserChange={setUserChange}  messanger={true}/>
+                <ChatWindow userChange={userChange}/>
                 <Rightbar messanger={true} />
 
             </section>
