@@ -16,6 +16,7 @@ export default function ChatWindow(props) {
   const [messages, setMessages] = useState(null);
   const [conversationId, setConversationId] = useState("");
   const textMessageRef = useRef();
+  const chatWindowRef = useRef();
 
   useEffect(()=>{
     const fetchConverationList = async()=>{
@@ -53,6 +54,10 @@ export default function ChatWindow(props) {
     fetchConverationList();
   },[userChange])
 
+  useEffect(()=>{
+    chatWindowRef.current?.scrollTo(0, chatWindowRef.current.scrollHeight)
+  },[messages])
+
   const sendMessage = async (event)=>{
     event.preventDefault();
     const msg = textMessageRef.current.value
@@ -60,7 +65,8 @@ export default function ChatWindow(props) {
       const sendMessageResponse = await SaveMessage(conversationId, userId, msg);
         if(sendMessageResponse.isSuccess){
           setMessages(prev=> [...prev, sendMessageResponse.response]);
-          textMessageRef.current.value=""
+          textMessageRef.current.value="";
+          chatWindowRef.current.scrollTo(0, chatWindowRef.current.scrollHeight)
         }
     }
   }
@@ -72,8 +78,8 @@ export default function ChatWindow(props) {
         Click on any of the Friend to Start the Converstion!!!!!!!!!!!
       </section>
       :
-      <section className="chatwindow">
-      <section className="chats">
+      <section  className="chatwindow">
+      <section ref={chatWindowRef} className="chats">
         
         {
         messages &&  messages.map(message=>{
