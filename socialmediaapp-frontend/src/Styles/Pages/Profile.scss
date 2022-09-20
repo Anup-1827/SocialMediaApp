@@ -6,10 +6,8 @@
     
     .aboutProfile{
         flex: 9;
-        width: 100%;    
-        // padding: 30px 20px;
+        width: 100%;   
         position: relative;
-        z-index: -1;
         .ProfilePics{
             height: 375px;
             .CoverPhoto{
@@ -27,9 +25,21 @@
                 margin: auto;
                 border-radius: 50%;
                 border: 4px solid white;
-                z-index: 1;
     
             }
+            svg{
+                color: white;
+                cursor: pointer;
+                background-color: grey;
+                width: 30px;
+                border-radius: 50%;
+                padding: 2px;
+            }
+            .editProfilePhoto{
+                position: absolute;
+                left: 41%;
+            }
+        
         }
 
         .nameandDesc{
@@ -48,6 +58,19 @@
             .userInfo{
                 flex: 3;
                 padding: 10px;
+                .followUnFollowBtn{
+                    background-color: #1877f2;
+                    border: 1px solid #1877f2;
+                    color: white;
+                    font-weight: bold;
+                    border-radius: 5px;
+                    padding: 10px;
+                    margin-bottom: 10px;
+                    font-size: 20px;
+                    letter-spacing: 1px;
+                    // position: absolute;
+                    cursor: pointer;
+                }
                 .aboutUser{
                     h1{
                         font-size: 20px;

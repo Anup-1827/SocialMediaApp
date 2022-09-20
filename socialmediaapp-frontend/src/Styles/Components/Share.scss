@@ -1,5 +1,6 @@
 .share{
     padding: 20px;
+    margin-bottom: 40px;
     .shareThoughts{
         display: flex;
         align-items: center;
@@ -43,6 +44,11 @@
             }
             span{
                 margin-left: 5px;
+            }
+            .photoMedia{
+                display: flex;
+                align-items: center;
+                cursor: pointer;
             }
         }
 

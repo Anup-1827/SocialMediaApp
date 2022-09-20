@@ -5,10 +5,10 @@ exports.CreatePost = async (req,res)=>{
     try{
         const newPost = new Post(req.body);
         const savePost = await newPost.save();
-        res.status(200).json(savePost);
+        res.status(200).json({"SUCCESS": true});
     }
     catch(err){
-        res.status(400).json(savePost);
+        res.status(400).json(err);
     }
 }
 
@@ -75,15 +75,37 @@ exports.LikeDisLikePost = async(req, res)=>{
 
 exports.TimeLinePost = async(req, res)=>{
     try{
-        const currentUser = await Users.findById(req.body.userId);
+        const currentUser = await Users.findById(req.params.userId);
         const userPosts = await Post.find({userId: currentUser._id});
         const friendsPost = await Promise.all(
             currentUser.following.map(friendId=>{
                 return Post.find({userId: friendId})
             })
         )
+        // const friendsPostArr = ...friendsPost;
+        // res.status(200).json([...userPosts, ...(...friendsPost)])
+        if(userPosts.length===0 || friendsPost.length === 0){
+                const AllPosts = await Post.find();
+            res.status(200).json(AllPosts)
+                
+        }else{
+            res.status(200).json(userPosts.concat(...friendsPost))
+        }
 
-        res.status(200).json([...userPosts, ...friendsPost])
+        // res.status(200).json(friendsPost)
+        
+    }
+    catch(err){
+        res.status(500).json(err);
+
+    }
+}
+
+exports.GetUserPosts = async(req, res)=>{
+    try{
+        const currentUser = await Users.findOne({userName:req.params.userName});
+        const userPosts = await Post.find({userId: currentUser._id});
+        res.status(200).json(userPosts)
         
     }
     catch(err){
