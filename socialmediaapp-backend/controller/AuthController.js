@@ -6,6 +6,7 @@ exports.Register = async(req,res)=>{
 
     try{
         // Start:--Hasing Password
+        console.log(req.body)
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(req.body.password, salt);
         // End:--Hasing Password
@@ -19,7 +20,10 @@ exports.Register = async(req,res)=>{
             coverPicture: req.body.coverPicture,
             followers: req.body.followers,
             following: req.body.following,
-            isAdmin: req.body.isAdmin
+            isAdmin: req.body.isAdmin,
+            city:req.body.city,
+            from:req.body.from,
+            relationship:req.body.relationship
         })
 
         const user = await newUser.save(); //Saving to DB
@@ -28,8 +32,7 @@ exports.Register = async(req,res)=>{
     }
     catch(err){
         console.log(err)
-        res.status(404);
-        res.send(err);
+        res.status(404).json(err);
     }
 } 
 
@@ -37,14 +40,14 @@ exports.Login = async (req, res)=>{
     try{
         const user = await User.findOne({email: req.body.email});
         // Verfiying User
-        !user && res.status(404).json("User not Found");
+        if(!user) return res.status(400).json("User not Found");
 
         // Verifying Password
         const verifyPassword = await bcrypt.compare( req.body.password ,user.password);
-        !verifyPassword && res.status(200).json("Password is incorrect");
+        if(!verifyPassword) return res.status(400).json("Password is incorrect");
 
         // Success
-        res.status(200).json(user)
+       return res.status(200).json(user)
 
     }
     catch(err){

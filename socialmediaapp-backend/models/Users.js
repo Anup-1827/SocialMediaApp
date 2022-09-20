@@ -12,7 +12,7 @@ const UserSchema = new mongoose.Schema(
         password:{
             type: String,
             require: true,
-            min: 6,
+            min: 3,
             max:20
         },
         email:{
@@ -55,7 +55,7 @@ const UserSchema = new mongoose.Schema(
         },
         relationship:{
             type:Number,
-            enum:[1,2,3]
+            enum:[0,1,2,3]
         }
     },
     {

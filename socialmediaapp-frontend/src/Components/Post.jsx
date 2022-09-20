@@ -1,93 +1,75 @@
+import React, { useState, useEffect } from 'react';
 import { MoreVert, Favorite, ThumbUp } from '@mui/icons-material';
-import React from 'react';
+import {format} from "timeago.js"
+import {Link} from 'react-router-dom';
 
-import '../Styles/Components/Post.scss'
-import Man2 from "../assets/Man2.jpg";
-import Girl1 from "../assets/Girl1.jpg";
+import '../Styles/Components/Post.scss';
+import {userDetails} from "../API Calls/UserAPI"
+import { LikeDislikePosts } from '../API Calls/PostAPI';
+import { useSelector } from 'react-redux';
 
 
+export default function Post({key, post}) {
+    const [likeUnlike, setLikeUnlike] = useState(post.likes.length);
+    const [user, setUser] = useState({})
+    const PF = process.env.REACT_APP_PUBLIC_URL;
 
-export default function Post() {
+    const handleLikes = async (postUserId)=>{
+        const userId = sessionStorage.getItem('userId');
+        const response = await LikeDislikePosts(postUserId,userId);
+        if(response.toLowerCase()== "you like the post"){
+            setLikeUnlike(likeUnlike=> likeUnlike+1); 
+        }
+        else if(response.toLowerCase()== "you dislike the post"){
+            setLikeUnlike(likeUnlike=> likeUnlike-1);
+        }
+    }
+
+    useEffect(()=>{
+        const userFunc = async ()=>{
+            const userResponse = await userDetails(post.userId);
+            const userInfo={};
+            userInfo.userName = userResponse?.userName;
+            userInfo.createdAt = userResponse?.createdAt;
+            userInfo.profilePicture = userResponse?.profilPicture;
+            setUser(userInfo);
+        }
+        userFunc();
+    },[post.userId])
+    
   return (
-    <section className="Post">
-        <article className="postCard boxShadow  ">
-            <div className="topContent">
+  
+             <article className="postCard boxShadow  " key={key}>
+            <div className="topContent">    
                 <div className="postUserDetails">
-                    <img src={Man2} className='postUserImage' placeholder='post user name' alt="pos"/>
-                    <span className="postUserName">Alert Edison</span>
-                    <span className="postDateTime">5 min ago</span>
+                    <Link to={`/profile/${user.userName}`} class="profileLink">
+                    <img src={user.profilePicture?user.profilePicture:`${PF}/noAvatar.png`} className='postUserImage' placeholder='post user name' alt="pos"/>
+                    <span className="postUserName">{user.userName}</span>
+                    </Link>
+                    <span className="postDateTime">{format(user.createdAt)}</span>
                 </div>
                 <div className="moreVert">
                     <MoreVert/>
                 </div>
             </div>
             <div className="topMiddle">
-                <p className='aboutPost'>This is my first Post</p>
-                <img className='userPost' src={Girl1} alt="post"/>
+                <p className='aboutPost'>{post.desc}</p>
+                {post.img?
+                <img className='userPost' src={post.img?post.img:`${PF}/noAvatar.png`} alt="post"/>
+                :""}
             </div>
             <div className="topBottom">
-                <div className="react">
+                <div className="react" onClick={()=>handleLikes(post._id)}>
                     <span className='love'><Favorite/> </span>
                     <span className='like'><ThumbUp/></span>
-                    <span>32 people like it</span>
+                    <span> {likeUnlike + ' like the post'}</span>
                 </div>
                 <div className="comments">
                     <p>9 comments</p>
                 </div>
             </div>
         </article>
-        <article className="postCard boxShadow  ">
-            <div className="topContent">
-                <div className="postUserDetails">
-                    <img src={Man2} className='postUserImage' placeholder='post user name' alt="pos"/>
-                    <span className="postUserName">Alert Edison</span>
-                    <span className="postDateTime">5 min ago</span>
-                </div>
-                <div className="moreVert">
-                    <MoreVert/>
-                </div>
-            </div>
-            <div className="topMiddle">
-                <p className='aboutPost'>This is my first Post</p>
-                <img className='userPost' src={Girl1} alt="post"/>
-            </div>
-            <div className="topBottom">
-                <div className="react">
-                    <span className='love'><Favorite/> </span>
-                    <span className='like'><ThumbUp/></span>
-                    <span>32 people like it</span>
-                </div>
-                <div className="comments">
-                    <p>9 comments</p>
-                </div>
-            </div>
-        </article>
-        <article className="postCard boxShadow  ">
-            <div className="topContent">
-                <div className="postUserDetails">
-                    <img src={Man2} className='postUserImage' placeholder='post user name' alt="pos"/>
-                    <span className="postUserName">Alert Edison</span>
-                    <span className="postDateTime">5 min ago</span>
-                </div>
-                <div className="moreVert">
-                    <MoreVert/>
-                </div>
-            </div>
-            <div className="topMiddle">
-                <p className='aboutPost'>This is my first Post</p>
-                <img className='userPost' src={Girl1} alt="post"/>
-            </div>
-            <div className="topBottom">
-                <div className="react">
-                    <span className='love'><Favorite/> </span>
-                    <span className='like'><ThumbUp/></span>
-                    <span>32 people like it</span>
-                </div>
-                <div className="comments">
-                    <p>9 comments</p>
-                </div>
-            </div>
-        </article>
-    </section>
+               
+
   )
 }

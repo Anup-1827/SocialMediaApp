@@ -16,4 +16,22 @@ $blue: #1877f2;
 
 a{
     text-decoration: none;
+    color: black;
+}
+
+.visible{
+    visibility: hidden;
+}
+
+input:focus{
+    outline: none;
+}
+
+.errorMsg{
+    color:  red;
+    font-size: 12px;
+    padding-left: 7px;
+}
+.hide{
+    display: none !important;
 }

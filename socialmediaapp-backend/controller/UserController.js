@@ -6,7 +6,7 @@ exports.UpdateUser = async (req, res)=>{
         const user = req.body;
         const id = req.params.id;
 
-        if(user.userId === id || user.isAdmin){
+        // if(user.userId === id || user.isAdmin){
             if(user.password){
                 const salt = await bcrypt.genSalt(10);
                 user.password = await bcrypt.hash(user.password, salt);
@@ -14,15 +14,16 @@ exports.UpdateUser = async (req, res)=>{
 
             try{
                 const userInfo = await User.findByIdAndUpdate(id, {$set: user});
-                res.status(200).json("Account is updated  successfully");
+                // res.status(200).json("Account is updated  successfully");
+                res.status(200).json({"isSuccess": true, "Message": "Account Updated Successfully"});
             }
             catch(err){
                 res.status(403).json(`Unable to update Account :- ${err}`);
             }
-        }
-        else{
-            res.status(403).json("You are not admin you can only change your account!!!!")
-        }
+        // }
+        // else{
+        //     res.status(403).json("You are not admin you can only change your account!!!!")
+        // }
     }
     catch(err){
         res.status(500).json(err)
@@ -56,7 +57,9 @@ exports.DeleteUser = async(req, res)=>{
 
 exports.GetUser = async(req,res)=>{
     try{
-        const user = await User.findById(req.params.id);
+        const userName = req.query.userName;
+        const userId = req.query.userId;
+        const user = userId? await User.findById(userId): await User.findOne({userName});
         const {password, email, ...other} = user._doc;
         res.status(200).json(other) 
     }
