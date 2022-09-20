@@ -9,11 +9,14 @@ import { userDetails } from '../API Calls/UserAPI';
 import { Link } from "react-router-dom";
 
 import { saveFriendList } from '../redux/FriendsList/FriendsSlice';
+import { GetConversation, SaveConversation } from '../API Calls/ConversationAPI';
 
-export default function Sidebar() {
+export default function Sidebar(props) {
+
+    const {messanger, setUserChange} = props
 
     const user = useSelector(state => state.auth);
-    const friendList = useSelector(state=> state.friends)
+    const friendList = useSelector(state => state.friends)
     const dispatch = useDispatch();
     const [followerList, setfollowerList] = useState([]);
     // const [friendList, setFriendList] = useState([]);
@@ -21,12 +24,12 @@ export default function Sidebar() {
     const userId = sessionStorage.getItem('userId');
     const PF = process.env.REACT_APP_PUBLIC_URL;
 
-    useEffect(()=>{
-        if(!window.location.hash) {
+    useEffect(() => {
+        if (!window.location.hash) {
             window.location = window.location + '#loaded';
             window.location.reload();
         }
-    },[])
+    }, [])
 
     useEffect(() => {
         const fetchFollowersList = async () => {
@@ -45,22 +48,85 @@ export default function Sidebar() {
 
     useEffect(() => {
         if (followerList && followerList.length !== 0) {
+            console.log("followerList");
             console.log(followerList);
-            const fetchFriendList = async () => {
+            const fetchFriendListAndConversationList = async () => {
+
+                // Friends List
                 const friends = await Promise.all(followerList.map(async (friendId) => {
                     const friendDetails = await userDetails(friendId);
                     return friendDetails;
                 }))
-                dispatch(saveFriendList(friends));
 
+                // Get Converstion List
+                const conversationList = await GetConversation(userId);
+                // console.log(conversationList);
+                let listResponse = [];
+                if (conversationList.isSuccess) {
+                    listResponse = conversationList.response;
+                }
+
+                // Creating Conversation list
+                if (followerList.length !== 0 && listResponse.length == 0) {
+                    const saveConversationList = Promise.all(followerList.map(async (follower) => {
+                        return await SaveConversation(userId, follower);
+                    }))
+                }
+                else if (followerList !== 0 && listResponse.length !== 0) {
+                    const conversationListArr = listResponse.map(list=>{
+                        const members = list.member;
+                        if(members[0] === userId){
+                            return members[1]
+                        }
+                        else{
+                            return members[0];
+                        }
+                    })
+
+                    for(let i =0; i<followerList.length; i++){
+                        if(!conversationListArr.includes(followerList[i])){
+                            await SaveConversation(userId, followerList[i]);
+                        }
+                    }
+                }
+
+
+                dispatch(saveFriendList(friends));
             }
-            fetchFriendList()
+            fetchFriendListAndConversationList()
         }
     }, [followerList])
 
+    const handleConvUser = (event)=>{
+        if(messanger){
+            let focusElement;   
+            if(event.target.tagName === "DIV"){
+                focusElement = event.target.parentElement;
+            }
+            else if(event.target.tagName === "IMG"){
+                focusElement = event.target.parentElement.parentElement;
+            }
+            else{
+               focusElement= event.target;
+            }
+
+            focusElement.classList.add('active');
+            const friendList = document.querySelectorAll(".person");
+            
+            for(let i=0;i<friendList.length; i++){
+                if(friendList[i] !== focusElement){
+                    friendList[i].classList.remove('active');
+                }
+            }
+
+            setUserChange(focusElement.dataset.id)
+
+        }
+    }
+
     return (
         <section className='sidebar'>
-            <article>
+            <article className={messanger ? "hide" : ""}>
                 <ul>
                     <li>
                         <RssFeed />
@@ -118,16 +184,19 @@ export default function Sidebar() {
                     </li>
                 </ul>
             </article>
-            <hr />
+            <hr className={messanger ? "hide" : ""} />
             <article>
+                <div className="searchFriends">
+
+                </div>
                 <h1 className='friendListHeading'>Friends List</h1>
                 <section className='friendList'>
                     {
                         friendList.map(friend => {
                             return (
-                                <Link to={`/profile/${friend.userName}`}>
+                                <Link to={messanger?"":`/profile/${friend.userName}`}>
 
-                                    <article className='person'>
+                                    <article data-id={friend._id} className='person' onClick = {handleConvUser}>
                                         <div>{friend.userName}</div>
                                         <div className='image'>
                                             <img className='imageStyle' src={friend.profilPicture != "" ? friend.profilPicture : `${PF}/noAvatar.png`} />
@@ -137,6 +206,7 @@ export default function Sidebar() {
                             )
                         })
                     }
+                    
                 </section>
             </article>
         </section>
