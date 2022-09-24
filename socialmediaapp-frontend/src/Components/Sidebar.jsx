@@ -39,7 +39,14 @@ export default function Sidebar(props) {
                 // setfollowerList(userInfo.followers);
             }
             else {
-                setfollowerList(user.data.followers);
+                const peopleList = [...user.data.followers, ...user.data.following];
+                const friendList = peopleList.reduce((newArr, person)=>{
+                    if(!newArr.includes(person)){
+                        return [...newArr, person]
+                    }
+                    return newArr;
+                }, [])
+                setfollowerList(friendList);
             }
         }
         fetchFollowersList();
@@ -48,8 +55,7 @@ export default function Sidebar(props) {
 
     useEffect(() => {
         if (followerList && followerList.length !== 0) {
-            console.log("followerList");
-            console.log(followerList);
+
             const fetchFriendListAndConversationList = async () => {
 
                 // Friends List
