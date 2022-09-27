@@ -23,18 +23,6 @@ const port= 1555;
 let OnlineUser = []
 
 io.on("connection", (socket)=>{
-    const todaysDate = new Date();
-    // console.log(`${todaysDate.getHours()}:${todaysDate.getMinutes()}:${todaysDate.getSeconds()}`)
-    // console.log("user is connected to socket on Port ",port );
-
-    // const addUser = UserEvents.AddUser({"userId": "3", "socketId": "c"}, OnlineUser);
-    // console.log(addUser)
-
-    // const getUser = UserEvents.GetUser("3", OnlineUser);
-    // console.log(getUser)
-
-    // const removeUser = UserEvents.RemoveUser("2", OnlineUser);
-    // console.log(removeUser)
 
     socket.on("newUser",(userId)=>{
      OnlineUser =   UserEvents.AddUser({userId, "socketId": socket.id}, OnlineUser);
