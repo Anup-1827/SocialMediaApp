@@ -32,6 +32,7 @@ io.on("connection", (socket)=>{
     })
 
     socket.on("sendMessage", ({senderId, receiverId, type, text})=>{
+        console.log({senderId, receiverId, type, text});
         const receiver = UserEvents.GetUser(receiverId, OnlineUser);
         io.to(receiver.socketId).emit("getMessage", {senderId, type, text});
     })

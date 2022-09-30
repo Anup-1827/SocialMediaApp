@@ -10,13 +10,17 @@ import {format} from "timeago.js"
 
 export default function ChatWindow(props) {
   
-  const {userChange} = props;
+  const {userChange, socket} = props;
   const userId = sessionStorage.getItem('userId');
 
   const [messages, setMessages] = useState(null);
-  const [conversationId, setConversationId] = useState("");
+  const [conversationInfo, setConversationInfo] = useState("");
   const textMessageRef = useRef();
   const chatWindowRef = useRef();
+
+  useEffect(()=>{
+    console.log(socket);
+  },[])
 
   useEffect(()=>{
     const fetchConverationList = async()=>{
@@ -31,7 +35,7 @@ export default function ChatWindow(props) {
             return userInfo
           },{})
           
-          setConversationId(getUserConversation._id);
+          setConversationInfo(getUserConversation);
 
           const messagesList = await GetMessages(getUserConversation._id);
           if(messagesList.isSuccess){
@@ -62,10 +66,10 @@ export default function ChatWindow(props) {
     event.preventDefault();
     const msg = textMessageRef.current.value
     if(msg !== ""){
+      const receiverId = conversationInfo.member.find(id=> id !== userId)
+      socket.emit("sendMessage", {senderId: userId, receiverId, type:"message", text:msg})
 
-      
-
-      const sendMessageResponse = await SaveMessage(conversationId, userId, msg);
+      const sendMessageResponse = await SaveMessage(conversationInfo._id, userId, msg);
         if(sendMessageResponse.isSuccess){
           setMessages(prev=> [...prev, sendMessageResponse.response]);
           textMessageRef.current.value="";
