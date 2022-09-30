@@ -3,11 +3,12 @@ import React from 'react';
 import Man2 from "../assets/Man2.jpg"
 import Gift from "../assets/Gift.jpg"
 import "../Styles/Components/Rightbar.scss"
+import Messanger from '../Pages/Messanger';
 
-export default function Rightbar() {
+export default function Rightbar({messanger}) {
   return (
     <section className='rightBar'>
-       <article className='birthDayRemainder'>
+       <article className={messanger?'birthDayRemainder hide':"birthDayRemainder"}>
           <div className="giftWrapper">
           <img src={Gift} className='gift'/>
           </div>
@@ -15,7 +16,7 @@ export default function Rightbar() {
           <b>Jim Garry</b> and <b>3 other Friends</b> have birthday today.
           </div>
        </article>
-       <article className='party'>
+       <article className={messanger?'party hide':"party"}>
           <h1>cold,</h1>
           <h1>smoothy</h1>
           <h1>& tasty.</h1>
@@ -24,6 +25,55 @@ export default function Rightbar() {
        <article className='onileFriends'>
         <h1>Online Friends</h1>
             <section className='onlinePeople'>
+                <article className='person'>
+                    <div className='image'>
+                        <img className='imageStyle' src={Man2}/>
+                        <span className='online'></span>
+                    </div>
+                    <span>John Doe</span>
+                </article>
+                <article className='person'>
+                    <div className='image'>
+                        <img className='imageStyle' src={Man2}/>
+                        <span className='online'></span>
+                    </div>
+                    <span>John Doe</span>
+                </article>
+                <article className='person'>
+                    <div className='image'>
+                        <img className='imageStyle' src={Man2}/>
+                        <span className='online'></span>
+                    </div>
+                    <span>John Doe</span>
+                </article>
+                <article className='person'>
+                    <div className='image'>
+                        <img className='imageStyle' src={Man2}/>
+                        <span className='online'></span>
+                    </div>
+                    <span>John Doe</span>
+                </article>
+                <article className='person'>
+                    <div className='image'>
+                        <img className='imageStyle' src={Man2}/>
+                        <span className='online'></span>
+                    </div>
+                    <span>John Doe</span>
+                </article>
+                <article className='person'>
+                    <div className='image'>
+                        <img className='imageStyle' src={Man2}/>
+                        <span className='online'></span>
+                    </div>
+                    <span>John Doe</span>
+                </article>
+                <article className='person'>
+                    <div className='image'>
+                        <img className='imageStyle' src={Man2}/>
+                        <span className='online'></span>
+                    </div>
+                    <span>John Doe</span>
+                </article>
                 <article className='person'>
                     <div className='image'>
                         <img className='imageStyle' src={Man2}/>

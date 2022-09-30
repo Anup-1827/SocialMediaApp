@@ -1,25 +1,37 @@
-import React, { useRef } from 'react'
+import React, { useRef, useContext, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { AssignmentReturned, Chat, Notifications, Person, Search } from '@mui/icons-material'
+import { Chat, Notifications, Person, Search } from '@mui/icons-material'
 import { Link, useNavigate } from 'react-router-dom';
 import { logout } from '../redux/Auth/AuthSlice';
 
-import Man1 from "../assets/Man1.jpg"
 import '../Styles/Components/TopBar.scss'
+import {Context} from "../App"
+import { useEffect } from 'react';
 
 function Topbar() {
-  const profile = useRef();
-  const whiteCard = useRef();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
   const PF = process.env.REACT_APP_PUBLIC_URL;
 
+  const profile = useRef();
+  const whiteCard = useRef();
+  const notificationCardRef = useRef()
+  const socket = useContext(Context);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [notifications, setNotifications] = useState([])
+  
   let user = useSelector(state => state.auth.data);
-  let userName = user.userName;
+  let userName = user?.userName;
   if (!userName) {
     userName = sessionStorage.getItem('userName');
   }
+
+  useEffect(()=>{
+    socket?.on("getNotification", ({senderId, type})=>{
+      setNotifications(prev=> [{senderId, type}, ...prev])
+    })
+  }, [socket])
+
+
 
   const handleProfileClick = (e) => {
 
@@ -48,6 +60,10 @@ function Topbar() {
 
   }
 
+  const handleNotificationCard =()=>{
+    notificationCardRef.current.classList.toggle('hide')
+  }
+
 
   return (
     <div className="topBar">
@@ -72,12 +88,30 @@ function Topbar() {
             <span>1</span>
           </div>
           <div className="chatNotify notify">
+            <Link to="/messanger" style={{color:"white"}}>
             <Chat />
             <span>1</span>
+            </Link>
           </div>
-          <div className="friendReqNotify notify">
+          <div className="friendReqNotify notify" onClick={handleNotificationCard}>
             <Notifications />
-            <span>1</span>
+            {notifications.length === 0?"":<span>{notifications.length}</span>}
+            {/* <span>1</span> */}
+            {notifications.length === 0?""
+            :
+            <div ref={notificationCardRef} className="notificationCard hide">
+              {
+                notifications.map((notify)=>{
+                  return(
+                    <div className='card'> <img src={user?.profilPicture?user.profilPicture:`${PF}/noAvatar.png`}/> {`${notify.senderId} ${notify.type === "like"? "has liked your post": "has messaged you"}`}</div>
+                  )
+                })
+              }
+              {/* <div className='card'> <img src={user?.profilPicture?user.profilPicture:`${PF}/noAvatar.png`}/> AnupNew has liked your post</div> */}
+
+            </div>
+            }
+            
           </div>
         </div>
 
@@ -86,7 +120,7 @@ function Topbar() {
         <div className="positionDiv" onClick={handleProfileClick}>
           
           <div className="imageDiv">
-            <b>{user.userName}</b>
+            <b>{user?.userName}</b>
             <img src={user?.profilPicture?user.profilPicture:`${PF}/noAvatar.png`} alt="myPhoto" className="profileImage" />
           </div>
           <div ref={whiteCard} className="whiteCard hide">

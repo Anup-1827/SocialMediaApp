@@ -9,7 +9,7 @@ import { LikeDislikePosts } from '../API Calls/PostAPI';
 import { useSelector } from 'react-redux';
 
 
-export default function Post({key, post}) {
+export default function Post({key, post, socket}) {
     const [likeUnlike, setLikeUnlike] = useState(post.likes.length);
     const [user, setUser] = useState({})
     const PF = process.env.REACT_APP_PUBLIC_URL;
@@ -19,6 +19,11 @@ export default function Post({key, post}) {
         const response = await LikeDislikePosts(postUserId,userId);
         if(response.toLowerCase()== "you like the post"){
             setLikeUnlike(likeUnlike=> likeUnlike+1); 
+
+            // Real Time Notification;
+            console.log(socket);
+            socket.emit("sendNotification", {senderId : userId, receiverId: post.userId, type:'like'})
+
         }
         else if(response.toLowerCase()== "you dislike the post"){
             setLikeUnlike(likeUnlike=> likeUnlike-1);
@@ -42,7 +47,7 @@ export default function Post({key, post}) {
              <article className="postCard boxShadow  " key={key}>
             <div className="topContent">    
                 <div className="postUserDetails">
-                    <Link to={`/profile/${user.userName}`} class="profileLink">
+                    <Link to={`/profile/${user.userName}`} className="profileLink">
                     <img src={user.profilePicture?user.profilePicture:`${PF}/noAvatar.png`} className='postUserImage' placeholder='post user name' alt="pos"/>
                     <span className="postUserName">{user.userName}</span>
                     </Link>

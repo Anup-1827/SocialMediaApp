@@ -16,12 +16,17 @@ const AuthSlice = createSlice({
     initialState,
     reducers:{
         saveUser(state, action){
-            state.status = STATUS.SUCCESS;
-            state.data = action.payload;
+            // state.status = STATUS.SUCCESS;
+            // state.data = action.payload;
+            // state.isLoggedin = true;
+           return {status: STATUS.SUCCESS, isLoggedin: true, data: action.payload}
         },
         logout(state,action){
-            state.status = STATUS.IDLE;
-            state.isLoggedin = false;
+            // state.status = STATUS.IDLE;
+            // state.isLoggedin = false;
+            // state.data={}
+           return {status: STATUS.IDLE, isLoggedin: false, data: {}}
+
         }
     },
     extraReducers: (builder)=>{
@@ -31,9 +36,10 @@ const AuthSlice = createSlice({
             state.status = STATUS.LOADING;
         })
         .addCase(loginThunk.fulfilled, (state, action)=>{
-            state.status = STATUS.SUCCESS;
-            state.data = action.payload;
-            state.isLoggedin = true;
+            // state.status = STATUS.SUCCESS;
+            // state.isLoggedin = true;
+            // state.data = action.payload;
+            return {status: STATUS.SUCCESS, isLoggedin: true, data: action.payload}
         })
         .addCase(loginThunk.rejected, (state, action)=>{
             state.status = STATUS.ERROR;

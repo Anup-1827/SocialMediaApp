@@ -4,7 +4,9 @@ const body_parser = require('body-parser');
 // Start: Importing Controller
 const UsersController  = require('../controller/UserController');
 const AuthController = require('../controller/AuthController');
-const PostController = require('../controller/PostController')
+const PostController = require('../controller/PostController');
+const ConversationController = require("../controller/ConversationController");
+const MessageController = require("../controller/MessageController");
 
 // Start: Creating Router
     //Start:--Auth
@@ -29,6 +31,17 @@ const PostController = require('../controller/PostController')
     router.get('/post/timeline/:userId', PostController.TimeLinePost);
     router.get('/post/getUserPosts/:userName', PostController.GetUserPosts)
     // End:--Post
+
+    // Start:- Conversation
+    router.post("/conversation", ConversationController.SaveConverstion);
+    router.get("/conversation/:userId", ConversationController.GetConversation);
+    // End:- Conversation
+
+    // Start:- Message
+    router.post("/message", MessageController.SaveMessage)
+    router.get("/message/:conversationId", MessageController.GetConversation)
+    // End:- Message
+
 
 // End: Creating Router
 

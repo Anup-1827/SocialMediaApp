@@ -81,6 +81,33 @@
                 background-color: red;
 
             }
+            .notificationCard{
+                position: absolute;
+                left: -286px;
+                top: 20px;
+                background-color: white;
+                border-radius: 5px;
+                width: 300px;
+                max-height: 300px;
+                overflow-y: scroll;
+                .card{
+                    color: black;
+                    padding: 10px;
+                    display: flex;
+                    align-items: center;
+                    width: 300px;
+
+                    img{
+                        width: 35px;
+                        height: 35px;
+                        object-fit: cover;
+                        border-radius: 50%;
+                        cursor: pointer;
+                        margin-right: 10px;
+                    }
+
+                }
+            }
         }
 
         
