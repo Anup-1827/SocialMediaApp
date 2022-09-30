@@ -62,6 +62,9 @@ export default function ChatWindow(props) {
     event.preventDefault();
     const msg = textMessageRef.current.value
     if(msg !== ""){
+
+      
+
       const sendMessageResponse = await SaveMessage(conversationId, userId, msg);
         if(sendMessageResponse.isSuccess){
           setMessages(prev=> [...prev, sendMessageResponse.response]);

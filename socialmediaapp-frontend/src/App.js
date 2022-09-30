@@ -53,12 +53,21 @@ function HomeComponent(){
   )
 }
 
-function ProfileController(){
+function ProfileComponent(){
   return(
     <Context.Provider value={socket}>
 
       <Topbar/>
       <Profile/>
+    </Context.Provider>
+  )
+}
+
+function MessangerComponent(){
+  return(
+    <Context.Provider value={socket}>
+      <Topbar/>
+      <Messanger/>
     </Context.Provider>
   )
 }
@@ -74,8 +83,8 @@ function ProfileController(){
           <Route path="/" element={<Navigate replace to="/login"/>}/>
           <Route path="/register" element={<Register/>}/>
           <Route path="/home" element={<HomeComponent/>}/>
-          <Route path="/profile/:id" element={<ProfileController/>}/>
-          <Route path="/messanger" element={<Messanger/>}/>
+          <Route path="/profile/:id" element={<ProfileComponent/>}/>
+          <Route path="/messanger" element={<MessangerComponent/>}/>
        </Routes>
     </Router>
     {/* </Provider> */}
