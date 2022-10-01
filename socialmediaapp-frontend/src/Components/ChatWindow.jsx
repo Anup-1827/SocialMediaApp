@@ -14,13 +14,31 @@ export default function ChatWindow(props) {
   const userId = sessionStorage.getItem('userId');
 
   const [messages, setMessages] = useState(null);
+  const [arrivalMessage, setArrivalMessage] = useState(null);
+  const [change, setChange] = useState(false)
   const [conversationInfo, setConversationInfo] = useState("");
   const textMessageRef = useRef();
   const chatWindowRef = useRef();
 
   useEffect(()=>{
-    console.log(socket);
+    socket?.on("getMessage", ({senderId, text, type})=>{
+      console.log("getMessage");
+      setArrivalMessage(
+        prev=> ({senderId, text, type, createdAt: new Date()})
+      )
+      
+      // console.log(change);
+    })
+    // setChange(prev=> !prev);  
   },[])
+
+  useEffect(()=>{
+    console.log(conversationInfo);
+    console.log(arrivalMessage);
+
+    conversationInfo?.member?.some(id=> id=== arrivalMessage?.senderId) && setMessages(prev=> [...prev, arrivalMessage])
+  },[change])
+
 
   useEffect(()=>{
     const fetchConverationList = async()=>{
@@ -91,7 +109,7 @@ export default function ChatWindow(props) {
         {
         messages &&  messages.map(message=>{
             return(
-              <article key={message._id} className={(message.senderId === userId)?"own":"chat"}>
+              <article key={message?._id} className={(message.senderId === userId)?"own":"chat"}>
               <div className="messageDiv">
                  <img className='imageStyle' src={Man2}/>
                  <span className='message'> {message.text}</span>
