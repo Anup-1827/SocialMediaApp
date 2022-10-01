@@ -5,6 +5,7 @@ import "../Styles/Components/ChatWindow.scss"
 import Man2 from "../assets/Man2.jpg"
 import { GetConversation} from '../API Calls/ConversationAPI';
 import { GetMessages, SaveMessage } from '../API Calls/MessageAPI';
+import { userDetails} from '../API Calls/UserAPI';
 import { useState } from 'react'
 import {format} from "timeago.js"
 
@@ -16,21 +17,48 @@ export default function ChatWindow(props) {
   const [messages, setMessages] = useState(null);
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const [change, setChange] = useState(false)
-  const [conversationInfo, setConversationInfo] = useState("");
+  const [conversationInfo, setConversationInfo] = useState(null);
+  const [imageObj, setImageObj] = useState({
+    "senderImg":"",
+    "userImg":""
+  })
   const textMessageRef = useRef();
   const chatWindowRef = useRef();
 
-  useEffect(()=>{
-    socket?.on("getMessage", ({senderId, text, type})=>{
-      console.log("getMessage");
-      setArrivalMessage(
-        prev=> ({senderId, text, type, createdAt: new Date()})
-      )
+  // useEffect(()=>{
+  //   socket?.on("getMessage", ({senderId, text, type})=>{
+  //     console.log("getMessage");
+  //     setArrivalMessage(
+  //       prev=> ({senderId, text, type, createdAt: new Date()})
+  //     )
       
-      // console.log(change);
-    })
-    // setChange(prev=> !prev);  
-  },[])
+  //     // console.log(change);
+  //   })
+  //   // setChange(prev=> !prev);  
+  // },[])
+
+
+  useEffect(()=>{
+    const fetchImages = async()=>{
+      try{
+        if(conversationInfo?.member.length >0){
+          const imagesURL = await Promise.all(conversationInfo?.member?.map(async (id)=>{
+            const userInfo = await userDetails(id)
+            return {[id]: userInfo.profilPicture}
+          }))
+          console.log(...imagesURL)
+        }
+        
+      }
+      catch(err){
+        alert("Error in Fetch the User Image in Chat window");
+        console.log("Error in Fetching the User Image in Chat Window", err)
+      }
+
+    }
+
+    fetchImages()
+  },[conversationInfo])
 
   useEffect(()=>{
     console.log(conversationInfo);
