@@ -18,10 +18,7 @@ export default function ChatWindow(props) {
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const [change, setChange] = useState(false)
   const [conversationInfo, setConversationInfo] = useState(null);
-  const [imageObj, setImageObj] = useState({
-    "senderImg":"",
-    "userImg":""
-  })
+  const [imageObj, setImageObj] = useState({})
   const textMessageRef = useRef();
   const chatWindowRef = useRef();
 
@@ -46,7 +43,8 @@ export default function ChatWindow(props) {
             const userInfo = await userDetails(id)
             return {[id]: userInfo.profilPicture}
           }))
-          console.log(...imagesURL)
+          console.log({...imagesURL[0], ...imagesURL[1]})
+          setImageObj({...imagesURL[0], ...imagesURL[1]})
         }
         
       }
@@ -139,7 +137,7 @@ export default function ChatWindow(props) {
             return(
               <article key={message?._id} className={(message.senderId === userId)?"own":"chat"}>
               <div className="messageDiv">
-                 <img className='imageStyle' src={Man2}/>
+                 <img className='imageStyle' src={imageObj[message.senderId]}/>
                  <span className='message'> {message.text}</span>
               </div>
               <div className="timestamp">
