@@ -1,6 +1,6 @@
 import {BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"
-import React from "react";
-import {Provider} from "react-redux"
+import React, { useDeferredValue, useEffect, useState, createContext } from "react";
+import {Provider, useSelector} from "react-redux"
 import {io} from "socket.io-client"
 
 import Home from "./Pages/Home";
@@ -13,45 +13,83 @@ import store from "./store";
 import Messanger from "./Pages/Messanger";
 
 
-function App() {
+export const Context = createContext();
 
-  const socket = io("http://localhost:1555");
+
+
+function App() {
+  
+  const user = useSelector(state=> state.auth);
+  // console.log(user)
+  const [socket, setSocket] = useState(null);
+  const [count, setCount] = useState(0)
+
+  useEffect(()=>{
+    if(user.isLoggedin){
+      // console.log("Logged in");
+      setSocket(io("http://localhost:1555"));
+    }
+  },[user])
+  
+  useEffect(()=>{
+    socket?.emit("newUser", user.data._id)
+  },[socket])
+
+  useEffect(()=>{
+    setCount(prev=> prev+1);
+
+    console.log("Reloaded "+ count)
+  },[])
+
+
+  
+function HomeComponent(){
+  return(
+    <Context.Provider value={socket}>
+      <Topbar/>
+      <Home/>
+    </Context.Provider>
+
+  )
+}
+
+function ProfileComponent(){
+  return(
+    <Context.Provider value={socket}>
+
+      <Topbar/>
+      <Profile/>
+    </Context.Provider>
+  )
+}
+
+function MessangerComponent(){
+  return(
+    <Context.Provider value={socket}>
+      <Topbar/>
+      <Messanger/>
+    </Context.Provider>
+  )
+}
+
+
 
   return (
     <React.Fragment>
-      <Provider store={store}>
+      {/* <Provider store={store}> */}
     <Router>
        <Routes>
           <Route path="/login" element={<Login/>}/>
           <Route path="/" element={<Navigate replace to="/login"/>}/>
           <Route path="/register" element={<Register/>}/>
           <Route path="/home" element={<HomeComponent/>}/>
-          <Route path="/profile/:id" element={<ProfileController/>}/>
-          <Route path="/messanger" element={<Messanger/>}/>
+          <Route path="/profile/:id" element={<ProfileComponent/>}/>
+          <Route path="/messanger" element={<MessangerComponent/>}/>
        </Routes>
     </Router>
-    </Provider>
+    {/* </Provider> */}
     </React.Fragment>
   );
-}
-
-
-function HomeComponent(){
-  return(
-    <>
-      <Topbar/>
-      <Home/>
-    </>
-  )
-}
-
-function ProfileController(){
-  return(
-    <>
-      <Topbar/>
-      <Profile/>
-    </>
-  )
 }
 
 export default App;

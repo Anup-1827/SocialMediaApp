@@ -5,11 +5,10 @@ import Share from './Share'
 
 
 import { TimeLine, GetUserPosts } from '../API Calls/PostAPI';
-import { useSelector } from 'react-redux';
 import { CircularProgress } from '@mui/material';
 import { useParams } from 'react-router-dom';
 
-export default function Feed({profile}) {
+export default function Feed({profile, socket}) {
   const [postsList, setPostsList] = useState([]);
   const [updatePost, setUpdatePost] = useState(false);
 
@@ -45,7 +44,7 @@ export default function Feed({profile}) {
             {(id === userName) || (window.location.pathname === "/home")  ? <Share updatePost={updatePost} setUpdatePost={setUpdatePost}/>: ""}
             <section  className="Post">
             {
-              postsList?.length ===0? <CircularProgress/>: postsList.sort((a, b)=> new Date(b.updatedAt)- new Date(a.updatedAt)).map(post=><Post key={post._id} post={post}/>)
+              postsList?.length ===0? <CircularProgress/>: postsList.sort((a, b)=> new Date(b.updatedAt)- new Date(a.updatedAt)).map(post=><Post socket={socket} key={post._id} post={post}/>)
             }
             </section>
         </section>

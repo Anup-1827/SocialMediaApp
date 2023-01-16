@@ -10,13 +10,33 @@ import {format} from "timeago.js"
 
 export default function ChatWindow(props) {
   
-  const {userChange} = props;
+  const {userChange, socket} = props;
   const userId = sessionStorage.getItem('userId');
 
   const [messages, setMessages] = useState(null);
-  const [conversationId, setConversationId] = useState("");
+  const [arrivalMessage, setArrivalMessage] = useState(null);
+  const [change, setChange] = useState(false)
+  const [conversationInfo, setConversationInfo] = useState({});
   const textMessageRef = useRef();
   const chatWindowRef = useRef();
+
+    socket?.on("getMessage", ({senderId, text, type})=>{
+
+      console.log({senderId, text, type});
+      setArrivalMessage(
+        prev=> ({senderId, text, type, createdAt: new Date()})
+      )
+    })
+
+  useEffect(()=>{
+    console.log(conversationInfo?.member?.some(id=> id=== arrivalMessage?.senderId));
+
+    conversationInfo?.member?.some(id=> id=== arrivalMessage?.senderId) && setMessages(prev=> [...prev, arrivalMessage])
+  },[change])
+
+  useEffect(()=>{
+    console.log(conversationInfo);
+  },[conversationInfo])
 
   useEffect(()=>{
     const fetchConverationList = async()=>{
@@ -30,8 +50,8 @@ export default function ChatWindow(props) {
             }
             return userInfo
           },{})
-          
-          setConversationId(getUserConversation._id);
+
+          setConversationInfo({...getUserConversation});
 
           const messagesList = await GetMessages(getUserConversation._id);
           if(messagesList.isSuccess){
@@ -58,11 +78,22 @@ export default function ChatWindow(props) {
     chatWindowRef.current?.scrollTo(0, chatWindowRef.current.scrollHeight)
   },[messages])
 
+  useEffect(()=>{
+    console.log(conversationInfo?.member?.includes(arrivalMessage?.senderId));
+    if(conversationInfo?.member?.includes(arrivalMessage?.senderId)){
+      setMessages(prev=> [...prev, arrivalMessage])
+    }
+    
+  },[arrivalMessage])
+
   const sendMessage = async (event)=>{
     event.preventDefault();
     const msg = textMessageRef.current.value
     if(msg !== ""){
-      const sendMessageResponse = await SaveMessage(conversationId, userId, msg);
+      const receiverId = conversationInfo.member.find(id=> id !== userId)
+      socket.emit("sendMessage", {senderId: userId, receiverId, type:"message", text:msg})
+
+      const sendMessageResponse = await SaveMessage(conversationInfo._id, userId, msg);
         if(sendMessageResponse.isSuccess){
           setMessages(prev=> [...prev, sendMessageResponse.response]);
           textMessageRef.current.value="";
@@ -84,7 +115,7 @@ export default function ChatWindow(props) {
         {
         messages &&  messages.map(message=>{
             return(
-              <article key={message._id} className={(message.senderId === userId)?"own":"chat"}>
+              <article key={message?._id} className={(message.senderId === userId)?"own":"chat"}>
               <div className="messageDiv">
                  <img className='imageStyle' src={Man2}/>
                  <span className='message'> {message.text}</span>
