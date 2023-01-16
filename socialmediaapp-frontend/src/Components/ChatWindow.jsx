@@ -16,29 +16,27 @@ export default function ChatWindow(props) {
   const [messages, setMessages] = useState(null);
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const [change, setChange] = useState(false)
-  const [conversationInfo, setConversationInfo] = useState("");
+  const [conversationInfo, setConversationInfo] = useState({});
   const textMessageRef = useRef();
   const chatWindowRef = useRef();
 
-  useEffect(()=>{
     socket?.on("getMessage", ({senderId, text, type})=>{
-      console.log("getMessage");
+
+      console.log({senderId, text, type});
       setArrivalMessage(
         prev=> ({senderId, text, type, createdAt: new Date()})
       )
-      
-      // console.log(change);
     })
-    // setChange(prev=> !prev);  
-  },[])
 
   useEffect(()=>{
-    console.log(conversationInfo);
-    console.log(arrivalMessage);
+    console.log(conversationInfo?.member?.some(id=> id=== arrivalMessage?.senderId));
 
     conversationInfo?.member?.some(id=> id=== arrivalMessage?.senderId) && setMessages(prev=> [...prev, arrivalMessage])
   },[change])
 
+  useEffect(()=>{
+    console.log(conversationInfo);
+  },[conversationInfo])
 
   useEffect(()=>{
     const fetchConverationList = async()=>{
@@ -52,8 +50,8 @@ export default function ChatWindow(props) {
             }
             return userInfo
           },{})
-          
-          setConversationInfo(getUserConversation);
+
+          setConversationInfo({...getUserConversation});
 
           const messagesList = await GetMessages(getUserConversation._id);
           if(messagesList.isSuccess){
@@ -79,6 +77,14 @@ export default function ChatWindow(props) {
   useEffect(()=>{
     chatWindowRef.current?.scrollTo(0, chatWindowRef.current.scrollHeight)
   },[messages])
+
+  useEffect(()=>{
+    console.log(conversationInfo?.member?.includes(arrivalMessage?.senderId));
+    if(conversationInfo?.member?.includes(arrivalMessage?.senderId)){
+      setMessages(prev=> [...prev, arrivalMessage])
+    }
+    
+  },[arrivalMessage])
 
   const sendMessage = async (event)=>{
     event.preventDefault();
